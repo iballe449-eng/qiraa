@@ -1,23 +1,58 @@
 {
-  "name": "Qirāʾa · Lire le Coran",
-  "short_name": "Qirāʾa",
+  "name": "Qiraa - Lire le Coran",
+  "short_name": "Qiraa",
   "description": "Apprendre à lire l'arabe et le Coran en 4 semaines : leçons, exercices, voix arabe, sourates mot à mot.",
   "lang": "fr-CA",
-  "id": "./",
-  "start_url": "./",
-  "scope": "./",
+  "id": "/qiraa/",
+  "start_url": "/qiraa/",
+  "scope": "/qiraa/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0b1d17",
   "theme_color": "#1f5c46",
-  "categories": ["education"],
+  "categories": [
+    "education"
+  ],
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ],
   "shortcuts": [
-    { "name": "Alphabet", "url": "./#abc", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
-    { "name": "Coran", "url": "./#quran", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
+    {
+      "name": "Alphabet",
+      "url": "/qiraa/#abc",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Coran",
+      "url": "/qiraa/#quran",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }
