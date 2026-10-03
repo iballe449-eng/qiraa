@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Apprendre à lire l'arabe et le Coran en 4 semaines.">
+<meta name="theme-color" content="#1f5c46">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Qirāʾa">
+<style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
+<title>Qirāʾa · Lire le Coran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Fraunces:opsz,wght@9..144,500..800&family=Figtree:wght@400..700&display=swap">
+<style>
+:root{
+  /* Layout : application mobile d'abord — colonne centrée de 720 px, barre d'onglets en bas ; leçon en plein écran avec slides ; vert profond et or, ornement d'étoile à huit branches */
+  --bg:#f4eedf; --bg2:#e9dfc6; --surface:#fffaf0; --ink:#1c2a23; --muted:#5b695f; --green:#1f5c46; --green2:#2f7a5d;
+  --gold:#a07a2a; --gold2:#c9a24b; --on:#fffaf0; --line:rgba(28,42,35,.14); --soft:rgba(28,42,35,.05); --ok:#2b7a4b; --bad:#b0412e;
+  --f-ar:"Amiri","Noto Naskh Arabic","Geeza Pro","Traditional Arabic",serif;
+  --f-q:"Amiri Quran","Amiri","Noto Naskh Arabic",serif;
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --arz:1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b1d17; --bg2:#0f2a21; --surface:#13332a; --ink:#f1ead6; --muted:#a6b6aa; --green:#5cc195; --green2:#86d6b2;
+  --gold:#dcb75c; --gold2:#eed592; --on:#0b1d17; --line:rgba(241,234,214,.14); --soft:rgba(241,234,214,.06); --ok:#6fd39b; --bad:#ff8f7d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1d17; --bg2:#0f2a21; --surface:#13332a; --ink:#f1ead6; --muted:#a6b6aa; --green:#5cc195; --green2:#86d6b2;
+  --gold:#dcb75c; --gold2:#eed592; --on:#0b1d17; --line:rgba(241,234,214,.14); --soft:rgba(241,234,214,.06); --ok:#6fd39b; --bad:#ff8f7d; color-scheme:dark}
+:root.t-light{--bg:#f4eedf; --bg2:#e9dfc6; --surface:#fffaf0; --ink:#1c2a23; --muted:#5b695f; --green:#1f5c46; --green2:#2f7a5d;--gold:#a07a2a; --gold2:#c9a24b; --on:#fffaf0; --line:rgba(28,42,35,.14); --soft:rgba(28,42,35,.05); --ok:#2b7a4b; --bad:#b0412e;color-scheme:light}
+:root.t-dark{--bg:#0b1d17; --bg2:#0f2a21; --surface:#13332a; --ink:#f1ead6; --muted:#a6b6aa; --green:#5cc195; --green2:#86d6b2;--gold:#dcb75c; --gold2:#eed592; --on:#0b1d17; --line:rgba(241,234,214,.14); --soft:rgba(241,234,214,.06); --ok:#6fd39b; --bad:#ff8f7d;color-scheme:dark}
+
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><g fill='none' stroke='%23a07a2a' stroke-width='1.2'><rect x='18' y='18' width='28' height='28'/><rect x='18' y='18' width='28' height='28' transform='rotate(45 32 32)'/></g></svg>")}
+*,*::before,*::after{box-sizing:border-box}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+[hidden]{display:none!important}
+.ar{font-family:var(--f-ar);direction:rtl;unicode-bidi:isolate}
+.q{font-family:var(--f-q);direction:rtl;unicode-bidi:isolate}
+.tr{font-style:italic;color:var(--gold);font-weight:600}
+
+.wrap{position:relative;max-width:720px;margin:0 auto;padding-inline:16px;padding-block:18px 110px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.logo{width:44px;height:44px;flex:none}
+.top h1{margin:0;font:700 22px/1.1 var(--f-display);letter-spacing:-.01em}
+.top p{margin:0;color:var(--muted);font-size:13.5px}
+h2{font:700 clamp(24px,5vw,30px)/1.15 var(--f-display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font:700 19px/1.25 var(--f-display);margin:0}
+.eyebrow{font:700 11.5px/1.3 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 30px -22px rgba(0,0,0,.45)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);font:700 15.5px var(--f-body);cursor:pointer;transition:transform .15s,filter .2s;text-decoration:none;color:var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--green);color:var(--on);border-color:transparent}
+.btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1c1508;border-color:transparent}
+.btn.sm{padding:8px 13px;font-size:14px}
+.btn:disabled{opacity:.4;cursor:default;transform:none}
+.snd{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;flex:none;color:var(--green)}
+.snd svg{width:19px;height:19px}
+.snd.play{animation:pulse .6s ease-in-out infinite alternate;border-color:var(--gold)}
+@keyframes pulse{to{box-shadow:0 0 0 6px color-mix(in oklab,var(--gold) 25%,transparent)}}
+.novoice .snd{display:none}
+
+/* accueil */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:linear-gradient(140deg,var(--green),color-mix(in oklab,var(--green) 70%,#000));color:#f6efd9;border:0}
+.hero h2{color:#fff8e4}
+.hero p{margin:4px 0 0;color:#d9e6dc}
+.ring{width:96px;height:96px}
+.ring circle{fill:none;stroke-width:8}
+.ring .bgc{stroke:rgba(255,255,255,.18)}
+.ring .fgc{stroke:#e6c46c;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1)}
+.ring text{fill:#fff8e4;font:700 20px var(--f-display)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.stats span{font:600 13px var(--f-body);padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.12)}
+.cont{display:grid;gap:12px;margin-top:14px;border-color:color-mix(in oklab,var(--gold) 45%,transparent)}
+.cont .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.cont .big{font:700 46px/1 var(--f-ar);color:var(--gold)}
+.week{margin-top:26px;display:grid;gap:10px}
+.week-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.lrow{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;transition:transform .15s,border-color .2s}
+.lrow:hover{transform:translateX(3px);border-color:var(--gold)}
+.lnum{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:var(--soft);font:700 15px var(--f-display);color:var(--green)}
+.lrow.done .lnum{background:var(--green);color:var(--on)}
+.lrow.next{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in oklab,var(--gold) 18%,transparent)}
+.lrow b{display:block;font:650 16px/1.25 var(--f-body)}
+.lrow small{color:var(--muted);font-size:13px}
+.lrow .lar{font:700 22px var(--f-ar);color:var(--gold);white-space:nowrap}
+.stars{color:var(--gold);font-size:13px;letter-spacing:1px}
+
+/* onglets */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);background:color-mix(in oklab,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.tabs div{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:560px}
+.tabs button{border:0;background:none;display:grid;justify-items:center;gap:2px;padding:6px 4px;border-radius:12px;font:600 12px var(--f-body);color:var(--muted);cursor:pointer}
+.tabs button svg{width:23px;height:23px}
+.tabs button[aria-current="true"]{color:var(--green);background:var(--soft)}
+
+/* alphabet */
+.agrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;direction:rtl;margin-top:16px}
+@media (min-width:560px){.agrid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.acell{display:grid;justify-items:center;gap:2px;padding:12px 4px 10px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;direction:ltr;transition:transform .15s,border-color .2s}
+.acell:hover{transform:translateY(-2px);border-color:var(--gold)}
+.acell .g{font:400 calc(44px*var(--arz))/1.2 var(--f-ar);color:var(--ink)}
+.acell small{font-size:12px;color:var(--muted)}
+.acell.known .g{color:var(--green)}
+
+/* lecteur de leçon */
+.player{position:fixed;inset:0;z-index:30;background:var(--bg);display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.ptop{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 8px;max-width:760px;width:100%;margin:0 auto}
+.xbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:20px;line-height:1;flex:none}
+.pbar{flex:1;height:8px;border-radius:8px;background:var(--soft);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--gold2));transition:width .4s}
+.ptitle{font:600 13px var(--f-body);color:var(--muted);white-space:nowrap;max-width:38%;overflow:hidden;text-overflow:ellipsis}
+.pbody{overflow-y:auto;padding:8px 16px 24px}
+.slide{max-width:720px;margin:0 auto;display:grid;gap:16px;animation:slin .45s cubic-bezier(.2,.8,.2,1)}
+.slide.back{animation-name:slback}
+@keyframes slin{from{opacity:0;transform:translateX(36px)}}
+@keyframes slback{from{opacity:0;transform:translateX(-36px)}}
+.slide p{margin:0}
+.slide table{border-collapse:collapse;width:100%}
+.slide td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.slide td.arq{font:400 32px/1.4 var(--f-q);text-align:center;width:70px;color:var(--gold)}
+.arq{font-family:var(--f-q);font-size:1.4em}
+.pnav{display:flex;gap:10px;justify-content:space-between;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 12px);max-width:760px;width:100%;margin:0 auto}
+.pnav .btn{flex:1;max-width:220px}
+
+.exs{display:grid;gap:10px}
+.ex{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.ex .ar,.ex .q{font-size:calc(34px*var(--arz));line-height:1.6;color:var(--ink);text-align:right}
+.ex .meta{display:grid;gap:0;min-width:0}
+.ex .meta span:last-child{color:var(--muted);font-size:14px}
+.arrowline{height:4px;border-radius:4px;background:linear-gradient(270deg,var(--gold),transparent);position:relative;overflow:hidden;margin-top:-6px}
+.arrowline::after{content:"";position:absolute;top:0;bottom:0;width:30%;right:0;background:var(--gold);animation:rtl 1.8s ease-in-out infinite}
+@keyframes rtl{from{right:0}to{right:100%}}
+
+.lhero{display:grid;justify-items:center;gap:6px;padding:12px 0 4px;text-align:center}
+.glyph{font:400 calc(150px*var(--arz))/1.15 var(--f-ar);color:var(--green);animation:gly .8s cubic-bezier(.2,1.4,.4,1) both;text-shadow:0 10px 30px color-mix(in oklab,var(--gold) 30%,transparent)}
+@keyframes gly{from{opacity:0;transform:scale(.6) rotate(-6deg)}}
+.lname{font:700 26px var(--f-display)}
+.lsnd{font:600 16px var(--f-body);color:var(--muted)}
+.lsnd b{color:var(--gold);font-size:20px}
+.forms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;direction:rtl}
+.forms div{direction:ltr;display:grid;justify-items:center;padding:10px 4px 8px;border-radius:14px;background:var(--surface);border:1px solid var(--line);animation:fup .5s both}
+.forms div:nth-child(2){animation-delay:.12s}.forms div:nth-child(3){animation-delay:.24s}.forms div:nth-child(4){animation-delay:.36s}
+@keyframes fup{from{opacity:0;transform:translateY(12px)}}
+.forms .ar{font-size:calc(44px*var(--arz));line-height:1.4}
+.forms small{color:var(--muted);font-size:12px}
+.note{padding:12px 14px;border-radius:14px;background:color-mix(in oklab,var(--gold) 12%,transparent);border:1px solid color-mix(in oklab,var(--gold) 35%,transparent);font-size:15px}
+.note b{color:var(--gold)}
+.fam{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;direction:rtl}
+.fam button{direction:ltr;display:grid;justify-items:center;padding:8px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;animation:fup .5s both}
+.fam .ar{font-size:calc(56px*var(--arz));line-height:1.35;color:var(--green)}
+.fam small{color:var(--muted);font-size:12.5px}
+.sylgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;direction:rtl}
+.syl{direction:ltr;display:grid;justify-items:center;padding:8px 4px;border-radius:14px;border:1px solid var(--line);background:var(--surface);cursor:pointer;transition:border-color .2s}
+.syl .ar{font-size:calc(40px*var(--arz));line-height:1.5}
+.syl .tr{opacity:0;transition:opacity .25s;min-height:1.4em}
+.syl.on .tr{opacity:1}
+.syl.on{border-color:var(--gold)}
+
+/* coran */
+.ayah{display:flex;flex-wrap:wrap;gap:10px 8px;direction:rtl;justify-content:flex-start}
+.word{direction:ltr;display:grid;justify-items:center;gap:0;padding:8px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);cursor:pointer;min-width:74px;transition:border-color .2s,transform .15s}
+.word:hover{border-color:var(--gold);transform:translateY(-2px)}
+.word .q{font-size:calc(34px*var(--arz));line-height:1.9;color:var(--ink)}
+.word .tr{font-size:13.5px}
+.word small{font-size:12px;color:var(--muted);text-align:center;max-width:120px;line-height:1.25}
+.word.hl{border-color:var(--gold);background:color-mix(in oklab,var(--gold) 14%,var(--surface))}
+.mushaf{padding:20px 16px;border-radius:20px;background:var(--surface);border:2px solid color-mix(in oklab,var(--gold) 55%,transparent);box-shadow:inset 0 0 0 5px var(--surface),inset 0 0 0 6px color-mix(in oklab,var(--gold) 35%,transparent)}
+.mushaf .q{font-size:calc(31px*var(--arz));line-height:2.3;text-align:center;display:block}
+.mushaf .bsm{font-size:calc(28px*var(--arz));color:var(--green);display:block;text-align:center;margin-bottom:6px}
+.mushaf .w{cursor:pointer;border-radius:8px;transition:background .2s}
+.mushaf .w:hover,.mushaf .w.hl{background:color-mix(in oklab,var(--gold) 22%,transparent)}
+.mushaf .trl{display:block;text-align:center;font-style:italic;color:var(--gold);font-size:14.5px;margin:-6px 0 10px;direction:ltr}
+.vnum{display:inline-grid;place-items:center;width:1.5em;height:1.5em;margin:0 .15em;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font:700 .5em/1 var(--f-ar);vertical-align:middle}
+.snames{text-align:center;display:grid;gap:2px;margin-bottom:8px}
+.snames .q{font-size:30px;color:var(--gold)}
+.pop{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);transform:translateX(-50%);z-index:40;width:min(92vw,420px);display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-radius:18px;background:var(--surface);border:1px solid var(--gold);box-shadow:0 18px 40px -16px rgba(0,0,0,.5);animation:fup .3s both}
+.pop .q{font-size:34px;line-height:1.7}
+.pop small{display:block;color:var(--muted)}
+
+/* exercices */
+.qcard{display:grid;gap:16px}
+.qq{font:650 19px/1.35 var(--f-body)}
+.qar{font:400 calc(64px*var(--arz))/1.5 var(--f-ar);text-align:center;color:var(--green);direction:rtl}
+.qar.q{font-family:var(--f-q)}
+.opts{display:grid;gap:10px}
+.opts.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opt{display:flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font:600 17px var(--f-body);text-align:center;transition:transform .15s,border-color .2s,background .2s}
+.opt:hover:not(:disabled){border-color:var(--gold);transform:translateY(-1px)}
+.opt .ar{font-size:calc(38px*var(--arz));line-height:1.3}
+.opt.right{border-color:var(--ok);background:color-mix(in oklab,var(--ok) 15%,var(--surface));animation:pop .35s}
+.opt.wrong{border-color:var(--bad);background:color-mix(in oklab,var(--bad) 12%,var(--surface));animation:shake .4s}
+.opt:disabled{cursor:default}
+@keyframes pop{50%{transform:scale(1.04)}}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+.fb{padding:12px 14px;border-radius:14px;font-weight:600}
+.fb.ok{background:color-mix(in oklab,var(--ok) 14%,transparent);color:var(--ok)}
+.fb.ko{background:color-mix(in oklab,var(--bad) 12%,transparent);color:var(--bad)}
+.end{text-align:center;justify-items:center}
+.end .score{font:800 72px/1 var(--f-display);color:var(--gold)}
+.big-ar{font:400 64px/1.4 var(--f-ar);color:var(--green)}
+
+/* réglages */
+.set{display:grid;gap:14px}
+.field{display:grid;gap:6px}
+.field label{font-weight:650}
+.field input[type=text],.field select{font:inherit;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.field input[type=range]{accent-color:var(--green);width:100%}
+.seg{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:999px;background:var(--soft);border:1px solid var(--line);width:fit-content}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:999px;font:600 14px var(--f-body);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--green);color:var(--on)}
+.muted{color:var(--muted)}
+.fine{font-size:13.5px;color:var(--muted)}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 16px);transform:translateX(-50%);z-index:60;padding:10px 16px;border-radius:999px;background:var(--green);color:var(--on);font-weight:650;animation:fup .3s both;max-width:92vw}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div id="root">
+  <main class="wrap" id="view"></main>
+  <nav class="tabs" aria-label="Navigation"><div>
+    <button type="button" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM8 7h6"/></svg>Parcours</button>
+    <button type="button" data-tab="abc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Alphabet</button>
+    <button type="button" data-tab="quran"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-2-5-2.5-8-2v14c3-.5 6 0 8 2 2-2 5-2.5 8-2V4c-3-.5-6 0-8 2zM12 6v14"/></svg>Coran</button>
+    <button type="button" data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Réglages</button>
+  </div></nav>
+</div>
+
+<script>
+/* ================= DONNÉES : LETTRES ================= */
+const F='َ',K='ِ',D='ُ',SK='ْ',TT='ـ';
+const LET=[
+ {c:'ا',n:'alif',an:'أَلِف',s:'ā',nc:1,tip:'Pas de son propre. Il sert de support à la hamza (أ, إ) ou allonge un « a » : بَا se lit « bā ».',ex:[['بَاب','bāb','porte'],['أَسَد','asad','lion']]},
+ {c:'ب',n:'bāʾ',an:'بَاء',s:'b',tip:'« b » comme dans « bateau ». Un point en dessous.',ex:[['بَيْت','bayt','maison'],['كِتَاب','kitāb','livre']]},
+ {c:'ت',n:'tāʾ',an:'تَاء',s:'t',tip:'« t » français, langue contre les dents du haut. Deux points au-dessus.',ex:[['تَمْر','tamr','dattes'],['بِنْت','bint','fille']]},
+ {c:'ث',n:'thāʾ',an:'ثَاء',s:'th',tip:'Comme le « th » anglais de « think » : bout de la langue entre les dents, sans faire vibrer la voix. Trois points au-dessus.',ex:[['ثَوْب','thawb','vêtement'],['ثَلَاثَة','thalātha','trois']]},
+ {c:'ج',n:'jīm',an:'جِيم',s:'j',tip:'« dj » comme dans « Djibouti ». Dans la récitation, on le prononce toujours « dj ». Un point dans le creux.',ex:[['جَمَل','jamal','chameau'],['رَجُل','rajul','homme']]},
+ {c:'ح',n:'ḥāʾ',an:'حَاء',s:'ḥ',tip:'Un « h » soufflé et serré au milieu de la gorge, comme pour embuer très fort une vitre. Sans raclement. Aucun point.',ex:[['حَلِيب','ḥalīb','lait'],['بَحْر','baḥr','mer']]},
+ {c:'خ',n:'khāʾ',an:'خَاء',s:'kh',tip:'Comme la « jota » espagnole ou le « ch » allemand de « Bach » : un léger raclement au fond de la gorge. Un point au-dessus.',ex:[['خُبْز','khubz','pain'],['شَيْخ','shaykh','ancien']]},
+ {c:'د',n:'dāl',an:'دَال',s:'d',nc:1,tip:'« d » français. Ne s’attache jamais à la lettre suivante.',ex:[['دَار','dār','demeure'],['وَلَد','walad','garçon']]},
+ {c:'ذ',n:'dhāl',an:'ذَال',s:'dh',nc:1,tip:'Comme le « th » anglais de « this » : langue entre les dents, avec la voix. Un point au-dessus. Ne s’attache pas à gauche.',ex:[['ذَهَب','dhahab','or'],['أُذُن','udhun','oreille']]},
+ {c:'ر',n:'rāʾ',an:'رَاء',s:'r',nc:1,tip:'« r » roulé du bout de la langue, comme en espagnol. Ne s’attache pas à gauche.',ex:[['رِيح','rīḥ','vent'],['نُور','nūr','lumière']]},
+ {c:'ز',n:'zāy',an:'زَاي',s:'z',nc:1,tip:'« z » comme dans « zèbre ». C’est un rāʾ avec un point. Ne s’attache pas à gauche.',ex:[['زَيْت','zayt','huile'],['مَوْز','mawz','bananes']]},
+ {c:'س',n:'sīn',an:'سِين',s:'s',tip:'« s » comme dans « sel ». Trois petites dents, sans point.',ex:[['سَمَك','samak','poisson'],['سَمَاء','samāʾ','ciel']]},
+ {c:'ش',n:'shīn',an:'شِين',s:'sh',tip:'« ch » comme dans « chat ». Trois dents et trois points au-dessus.',ex:[['شَمْس','shams','soleil'],['شَجَرَة','shajara','arbre']]},
+ {c:'ص',n:'ṣād',an:'صَاد',s:'ṣ',heavy:1,tip:'« s » emphatique (lourd) : langue creusée, bouche pleine. Le « a » qui suit sonne plus sombre, presque « o ».',ex:[['صَبْر','ṣabr','patience'],['صَلَاة','ṣalāh','prière']]},
+ {c:'ض',n:'ḍād',an:'ضَاد',s:'ḍ',heavy:1,tip:'« d » emphatique : les côtés de la langue s’appuient contre les molaires du haut. Son plein et grave. Un point au-dessus.',ex:[['ضَوْء','ḍawʾ','clarté'],['أَرْض','arḍ','terre']]},
+ {c:'ط',n:'ṭāʾ',an:'طَاء',s:'ṭ',heavy:1,tip:'« t » emphatique, plus lourd et plus sombre que ت.',ex:[['طِفْل','ṭifl','enfant'],['طَرِيق','ṭarīq','chemin']]},
+ {c:'ظ',n:'ẓāʾ',an:'ظَاء',s:'ẓ',heavy:1,tip:'Le « th » de « this » (comme ذ), mais emphatique, donc lourd. Un point au-dessus.',ex:[['ظِلّ','ẓill','ombre'],['ظُهْر','ẓuhr','midi']]},
+ {c:'ع',n:'ʿayn',an:'عَيْن',s:'ʿ',tip:'Sans équivalent en français : on resserre le milieu de la gorge, comme un « a » étranglé. Écoute-le plusieurs fois.',ex:[['عَيْن','ʿayn','œil, source'],['عِلْم','ʿilm','savoir']]},
+ {c:'غ',n:'ghayn',an:'غَيْن',s:'gh',heavy:1,tip:'Comme le « r » grasseyé parisien, du fond de la gorge. Un point au-dessus.',ex:[['غَيْم','ghaym','nuages'],['لُغَة','lugha','langue']]},
+ {c:'ف',n:'fāʾ',an:'فَاء',s:'f',tip:'« f » français. Un point au-dessus de la boucle.',ex:[['فِيل','fīl','éléphant'],['فَم','fam','bouche']]},
+ {c:'ق',n:'qāf',an:'قَاف',s:'q',heavy:1,tip:'Un « k » très profond : le fond de la langue touche la luette. Deux points au-dessus.',ex:[['قَلْب','qalb','cœur'],['قَمَر','qamar','lune']]},
+ {c:'ك',n:'kāf',an:'كَاف',s:'k',tip:'« k » français. Le petit trait à l’intérieur la distingue.',ex:[['كِتَاب','kitāb','livre'],['مَلِك','malik','roi']]},
+ {c:'ل',n:'lām',an:'لَام',s:'l',tip:'« l » français. Grande tige qui descend en crochet.',ex:[['لَيْل','layl','nuit'],['جَبَل','jabal','montagne']]},
+ {c:'م',n:'mīm',an:'مِيم',s:'m',tip:'« m » français. Une petite boucle.',ex:[['مَاء','māʾ','eau'],['قَلَم','qalam','stylo']]},
+ {c:'ن',n:'nūn',an:'نُون',s:'n',tip:'« n » français. Un point au-dessus d’une coupe arrondie.',ex:[['نُور','nūr','lumière'],['نَهْر','nahr','rivière']]},
+ {c:'ه',n:'hāʾ',an:'هَاء',s:'h',tip:'Un « h » léger et expiré, comme un soupir (le « h » de « hello »). Il change beaucoup de forme selon sa place.',ex:[['هِلَال','hilāl','croissant de lune'],['وَجْه','wajh','visage']]},
+ {c:'و',n:'wāw',an:'وَاو',s:'w',nc:1,tip:'« w » comme dans « oui ». Il sert aussi à allonger le « u » : بُو se lit « bū ». Ne s’attache pas à gauche.',ex:[['وَرْد','ward','roses'],['يَوْم','yawm','jour']]},
+ {c:'ي',n:'yāʾ',an:'يَاء',s:'y',tip:'« y » comme dans « yaourt ». Il sert aussi à allonger le « i » : بِي se lit « bī ». Deux points en dessous.',ex:[['يَد','yad','main'],['بَيْت','bayt','maison']]},
+ {c:'ء',n:'hamza',an:'هَمْزَة',s:'ʾ',nc:1,iso:1,tip:'Un arrêt bref de la voix, comme entre les deux « a » de « ah-ah ! ». Elle s’écrit seule (ء) ou sur un support : أ إ ؤ ئ.',ex:[['سَأَلَ','saʾala','il a demandé'],['مَاء','māʾ','eau']]}
+];
+const LBY=Object.fromEntries(LET.map(l=>[l.c,l]));
+const FAMILY=[['ب','ت','ث','ن','ي'],['ج','ح','خ'],['د','ذ'],['ر','ز'],['س','ش'],['ص','ض'],['ط','ظ'],['ع','غ'],['ف','ق']];
+const VOW={a:[F,'a','fatḥa'],i:[K,'i','kasra'],u:[D,'u','ḍamma']};
+
+/* ================= MOTS POUR LA LECTURE ================= */
+const W={
+ v:[['كَتَبَ','kataba','il a écrit'],['جَلَسَ','jalasa','il s’est assis'],['ذَهَبَ','dhahaba','il est allé'],['سَمِعَ','samiʿa','il a entendu'],['فَتَحَ','fataḥa','il a ouvert'],['خَلَقَ','khalaqa','il a créé'],['قُلْ','qul','dis'],['لَمْ','lam','ne … pas'],['مِنْ','min','de, parmi'],['يَعْلَمُ','yaʿlamu','il sait']],
+ m:[['قَالَ','qāla','il a dit'],['كَانَ','kāna','il était'],['فِيهَا','fīhā','en elle'],['يَقُولُ','yaqūlu','il dit'],['نُورُ','nūru','lumière (de)'],['مَالِكِ','māliki','maître (de)'],['دِينِ','dīni','religion, rétribution'],['سَمِيعُ','samīʿu','qui entend tout']],
+ t:[['كِتَابٌ','kitābun','un livre'],['بَابًا','bāban','une porte'],['رَجُلٍ','rajulin','d’un homme'],['عَلِيمٌ','ʿalīmun','très savant'],['غَفُورٌ','ghafūrun','très pardonneur'],['حَكِيمًا','ḥakīman','sage']],
+ sh:[['رَبِّ','rabbi','Seigneur (de)'],['إِنَّ','inna','certes'],['ثُمَّ','thumma','puis'],['حَقٌّ','ḥaqqun','une vérité'],['مُحَمَّدٌ','muḥammadun','Muhammad'],['كُلُّ','kullu','tout']],
+ sp:[['رَحْمَةٌ','raḥmatun','une miséricorde'],['جَنَّةٌ','jannatun','un jardin'],['عَلَى','ʿalā','sur'],['إِلَى','ilā','vers'],['لَا','lā','non'],['سَلَامٌ','salāmun','paix']],
+ al:[['الْقَمَرُ','al-qamaru','la lune'],['الْكِتَابُ','al-kitābu','le livre'],['الْبَيْتُ','al-baytu','la maison'],['الشَّمْسُ','ash-shamsu','le soleil'],['النُّورُ','an-nūru','la lumière'],['الرَّحِيمُ','ar-raḥīmu','le Très Miséricordieux']],
+ wa:[['بِسْمِ ٱللَّهِ','bismi llāhi','au nom d’Allah'],['ٱلْحَمْدُ','al-ḥamdu','la louange'],['وَٱلْعَصْرِ','wal-ʿaṣri','par le temps'],['فَٱنْحَرْ','fanḥar','et sacrifie'],['قُلْ هُوَ ٱللَّهُ','qul huwa llāhu','dis : Il est Allah']],
+ ms:[['ٱلرَّحْمَٰنِ','ar-raḥmāni','le Tout Miséricordieux'],['ذَٰلِكَ','dhālika','cela'],['جَآءَ','jāʾa','il est venu'],['لَهُۥ','lahū','à lui'],['بِهِۦ','bihī','par lui'],['ءَامَنُوا۟','āmanū','ils ont cru']]
+};
+
+/* ================= SOURATES (rasm uthmani, mushaf Madani) ================= */
+const SUR=[
+ {id:'fatiha',n:'Al-Fātiḥa',ar:'الفاتحة',fr:'L’Ouverture',num:1,ayat:[
+  [['بِسْمِ','bismi','au nom de'],['ٱللَّهِ','llāhi','Allah'],['ٱلرَّحْمَٰنِ','r-raḥmāni','le Tout Miséricordieux'],['ٱلرَّحِيمِ','r-raḥīm','le Très Miséricordieux']],
+  [['ٱلْحَمْدُ','al-ḥamdu','la louange'],['لِلَّهِ','lillāhi','appartient à Allah'],['رَبِّ','rabbi','Seigneur'],['ٱلْعَٰلَمِينَ','l-ʿālamīn','des mondes']],
+  [['ٱلرَّحْمَٰنِ','ar-raḥmāni','le Tout Miséricordieux'],['ٱلرَّحِيمِ','r-raḥīm','le Très Miséricordieux']],
+  [['مَٰلِكِ','māliki','Maître'],['يَوْمِ','yawmi','du Jour'],['ٱلدِّينِ','d-dīn','de la Rétribution']],
+  [['إِيَّاكَ','iyyāka','Toi seul'],['نَعْبُدُ','naʿbudu','nous adorons'],['وَإِيَّاكَ','wa-iyyāka','et Toi seul'],['نَسْتَعِينُ','nastaʿīn','nous implorons l’aide']],
+  [['ٱهْدِنَا','ihdinā','guide-nous'],['ٱلصِّرَٰطَ','ṣ-ṣirāṭa','sur le chemin'],['ٱلْمُسْتَقِيمَ','l-mustaqīm','droit']],
+  [['صِرَٰطَ','ṣirāṭa','le chemin'],['ٱلَّذِينَ','lladhīna','de ceux que'],['أَنْعَمْتَ','anʿamta','Tu as comblés'],['عَلَيْهِمْ','ʿalayhim','(de bienfaits)'],['غَيْرِ','ghayri','non pas'],['ٱلْمَغْضُوبِ','l-maghḍūbi','ceux qui ont encouru la colère'],['عَلَيْهِمْ','ʿalayhim','(sur eux)'],['وَلَا','wa-lā','ni'],['ٱلضَّآلِّينَ','ḍ-ḍāllīn','les égarés']]]},
+ {id:'ikhlas',n:'Al-Ikhlāṣ',ar:'الإخلاص',fr:'Le Monothéisme pur',num:112,ayat:[
+  [['قُلْ','qul','dis'],['هُوَ','huwa','Il est'],['ٱللَّهُ','llāhu','Allah'],['أَحَدٌ','aḥad','Unique']],
+  [['ٱللَّهُ','allāhu','Allah'],['ٱلصَّمَدُ','ṣ-ṣamad','l’Absolu, Celui qu’on implore']],
+  [['لَمْ','lam','Il n’a pas'],['يَلِدْ','yalid','engendré'],['وَلَمْ','wa-lam','et n’a pas'],['يُولَدْ','yūlad','été engendré']],
+  [['وَلَمْ','wa-lam','et il n’y a'],['يَكُن','yakul','(personne)'],['لَّهُۥ','lahū','pour Lui'],['كُفُوًا','kufuwan','d’égal'],['أَحَدٌۢ','aḥad','aucun']]]},
+ {id:'kawthar',n:'Al-Kawthar',ar:'الكوثر',fr:'L’Abondance',num:108,ayat:[
+  [['إِنَّآ','innā','certes Nous'],['أَعْطَيْنَٰكَ','aʿṭaynāka','t’avons donné'],['ٱلْكَوْثَرَ','l-kawthar','al-Kawthar (l’abondance)']],
+  [['فَصَلِّ','fa-ṣalli','prie donc'],['لِرَبِّكَ','li-rabbika','pour ton Seigneur'],['وَٱنْحَرْ','wanḥar','et sacrifie']],
+  [['إِنَّ','inna','certes'],['شَانِئَكَ','shāniʾaka','celui qui te hait'],['هُوَ','huwa','c’est lui'],['ٱلْأَبْتَرُ','l-abtar','le privé de postérité']]]},
+ {id:'asr',n:'Al-ʿAṣr',ar:'العصر',fr:'Le Temps',num:103,ayat:[
+  [['وَٱلْعَصْرِ','wal-ʿaṣr','par le Temps']],
+  [['إِنَّ','inna','certes'],['ٱلْإِنسَٰنَ','l-insāna','l’homme'],['لَفِى','lafī','est vraiment en'],['خُسْرٍ','khusr','perdition']],
+  [['إِلَّا','illā','sauf'],['ٱلَّذِينَ','lladhīna','ceux qui'],['ءَامَنُوا۟','āmanū','ont cru'],['وَعَمِلُوا۟','wa-ʿamilū','et ont accompli'],['ٱلصَّٰلِحَٰتِ','ṣ-ṣāliḥāti','les bonnes œuvres'],['وَتَوَاصَوْا۟','wa-tawāṣaw','et se sont recommandé'],['بِٱلْحَقِّ','bil-ḥaqqi','la vérité'],['وَتَوَاصَوْا۟','wa-tawāṣaw','et se sont recommandé'],['بِٱلصَّبْرِ','biṣ-ṣabr','la patience']]]}
+];
+const SBY=Object.fromEntries(SUR.map(s=>[s.id,s]));
+
+/* ================= LEÇONS ================= */
+const WEEKS=['Les lettres (1)','Les lettres (2) et les signes','Lire des mots','Lire le Coran'];
+const LS=[
+ {id:1,w:1,t:'Bienvenue',ar:'مَرْحَبًا',goal:'Comprendre comment fonctionne l’écriture arabe avant d’apprendre les lettres.',
+  slides:[
+   {t:'text',h:'Ton objectif',html:'<p>En 4 semaines, à raison de 20 à 30 minutes par jour, tu vas apprendre les 28 lettres, les voyelles, les signes du Coran et les règles de base. À la fin, tu liras <b>Al-Fātiḥa</b> et trois courtes sourates, mot à mot.</p><p>Chaque leçon suit le même chemin : des slides pour comprendre, des exemples à écouter, puis des exercices.</p>'},
+   {t:'text',h:'On lit de droite à gauche',html:'<p>Le texte commence à droite. Un livre arabe s’ouvre donc « à l’envers » pour un francophone.</p>',ex:[['بَاب','bāb','porte : lis ب puis ا puis ب, de droite à gauche']],arrow:1},
+   {t:'text',h:'28 lettres, attachées entre elles',html:'<p>L’arabe s’écrit comme une écriture cursive : les lettres d’un mot se lient. Une même lettre change donc un peu de forme selon sa place : <b>seule</b>, au <b>début</b>, au <b>milieu</b> ou à la <b>fin</b> du mot.</p>',forms:'ب'},
+   {t:'text',h:'Les points font la différence',html:'<p>Beaucoup de lettres partagent la même forme de base. Seuls le nombre et la place des points les distinguent. Regarde bien les points : c’est la clé de la lecture.</p>',family:['ب','ت','ث']},
+   {t:'text',h:'Les voyelles courtes sont des petits signes',html:'<p>Les voyelles « a », « i », « u » ne sont pas des lettres : ce sont de petits signes placés au-dessus ou en dessous de la consonne. Le Coran les écrit toujours, ce qui facilite la lecture.</p>',ex:[['بَ','ba','fatḥa : un trait au-dessus'],['بِ','bi','kasra : un trait en dessous'],['بُ','bu','ḍamma : un petit wāw au-dessus']]},
+   {t:'text',h:'Comment lire la transcription',html:'<p>Sous chaque mot arabe, tu verras sa lecture en lettres latines :</p><table><tr><td><b>ā ī ū</b></td><td>voyelles longues (deux temps)</td></tr><tr><td><b>ʿ</b></td><td>la lettre ʿayn (ع)</td></tr><tr><td><b>ʾ</b></td><td>la hamza, petit arrêt de la voix (ء)</td></tr><tr><td><b>ḥ ṣ ḍ ṭ ẓ</b></td><td>lettres « lourdes » ou soufflées</td></tr><tr><td><b>th dh kh gh sh</b></td><td>une seule lettre arabe chacune</td></tr></table><p>La transcription aide au début, mais l’objectif est de lire l’arabe directement.</p>'},
+   {t:'text',h:'Et la voix ?',html:'<p>Touche le bouton 🔊 pour entendre une lettre, une syllabe ou un mot. C’est une voix de synthèse : elle aide à démarrer, mais pour la récitation du Coran, écoute aussi un récitateur (sur quran.com par exemple) et imite-le.</p>',ex:[['بِسْمِ ٱللَّهِ','bismi llāhi','au nom d’Allah']]}
+  ],
+  quiz:{custom:[
+   {q:'Dans quel sens lit-on l’arabe ?',o:['De droite à gauche','De gauche à droite','De haut en bas']},
+   {q:'Combien de lettres compte l’alphabet arabe ?',o:['28','26','32']},
+   {q:'Comment s’écrivent les voyelles courtes ?',o:['Avec de petits signes sur ou sous la lettre','Avec des lettres séparées','Elles ne s’écrivent jamais dans le Coran']},
+   {q:'Comment se lit ce signe ?',ar:'بَ',o:['ba','bi','bu']},
+   {q:'Comment se lit ce signe ?',ar:'بِ',o:['bi','ba','bu']},
+   {q:'Comment se lit ce signe ?',ar:'بُ',o:['bu','ba','bi']},
+   {q:'Qu’est-ce qui distingue souvent deux lettres ?',o:['Le nombre et la place des points','La couleur','La taille']}
+  ]}},
+ {id:2,w:1,t:'Alif, bāʾ, tāʾ, thāʾ',ar:'ا ب ت ث',newL:['ا','ب','ت','ث'],vow:'a',goal:'Lire tes quatre premières lettres avec la voyelle « a ».',
+  pre:[{t:'text',h:'La fatḥa',html:'<p>Le petit trait oblique <b>au-dessus</b> d’une lettre est la <b>fatḥa</b>. Il ajoute le son « a » : بَ = « ba ».</p>',ex:[['بَ','ba',''],['تَ','ta',''],['ثَ','tha','']]}],
+  post:[{t:'text',h:'L’alif allonge le « a »',html:'<p>Après une lettre avec fatḥa, l’alif prolonge le son : on tient le « a » deux temps.</p>',ex:[['بَا','bā','a long'],['تَا','tā','a long'],['ثَا','thā','a long']]}]},
+ {id:3,w:1,t:'Nūn et yāʾ',ar:'ن ي',newL:['ن','ي'],vow:'ai',goal:'Ajouter deux lettres et la voyelle « i ».',
+  pre:[{t:'text',h:'La kasra',html:'<p>Le petit trait <b>sous</b> une lettre est la <b>kasra</b> : elle ajoute le son « i ». بِ = « bi ».</p>',ex:[['بِ','bi',''],['تِ','ti',''],['نِ','ni','']]}],
+  post:[{t:'text',h:'Attention aux sœurs',html:'<p>Au début et au milieu d’un mot, ب ت ث ن ي ont exactement la même forme. Seuls les points changent : ب un dessous, ت deux dessus, ث trois dessus, ن un dessus, ي deux dessous.</p>',family:['ب','ت','ث','ن','ي'],mid:1}]},
+ {id:4,w:1,t:'Jīm, ḥāʾ, khāʾ',ar:'ج ح خ',newL:['ج','ح','خ'],vow:'ai',goal:'Distinguer trois lettres de même forme et deux sons de gorge.',
+  post:[{t:'text',h:'ح ou ه ?',html:'<p>Ne confonds pas <b>ḥ</b> (ح), soufflé et serré dans la gorge, avec le <b>h</b> léger (ه) que tu verras plus tard. Pour ح, imagine que tu souffles fort sur une vitre en serrant la gorge.</p>'}]},
+ {id:5,w:1,t:'Dāl, dhāl, rāʾ, zāy, wāw',ar:'د ذ ر ز و',newL:['د','ذ','ر','ز','و'],vow:'aiu',goal:'Apprendre les lettres qui ne s’attachent pas à gauche, et la voyelle « u ».',
+  pre:[{t:'text',h:'La ḍamma',html:'<p>Le petit <b>wāw</b> au-dessus d’une lettre est la <b>ḍamma</b> : elle ajoute le son « u » (prononcé « ou »). بُ = « bu ».</p>',ex:[['بُ','bu',''],['دُ','du',''],['رُ','ru','']]},
+   {t:'text',h:'Six lettres « égoïstes »',html:'<p>ا د ذ ر ز و s’attachent à la lettre d’avant, jamais à celle d’après. Après elles, la lettre suivante recommence en forme « début ». C’est pour ça que certains mots semblent coupés en morceaux.</p>',ex:[['وَرْد','ward','roses : aucune lettre ne se lie']]}]},
+ {id:6,w:1,t:'Sīn, shīn, ṣād, ḍād',ar:'س ش ص ض',newL:['س','ش','ص','ض'],vow:'aiu',goal:'Apprendre les lettres à dents et tes premières lettres lourdes.',
+  post:[{t:'text',h:'Les lettres lourdes',html:'<p>Sept lettres se prononcent toujours « lourdes » (bouche pleine, son grave) : <b>خ ص ض غ ط ق ظ</b>. Avec elles, le « a » sonne plus sombre. Compare سَ (sa, léger) et صَ (ṣa, lourd).</p>',ex:[['سَ','sa','léger'],['صَ','ṣa','lourd']]}]},
+ {id:7,w:1,t:'Ṭāʾ, ẓāʾ, ʿayn, ghayn',ar:'ط ظ ع غ',newL:['ط','ظ','ع','غ'],vow:'aiu',goal:'Finir la première semaine avec quatre lettres délicates.',
+  post:[{t:'text',h:'Bravo pour cette semaine',html:'<p>Tu connais déjà 22 lettres. Le ʿayn (ع) est le plus difficile pour un francophone : écoute-le souvent et ne t’inquiète pas s’il n’est pas parfait tout de suite.</p>'}]},
+ {id:8,w:2,t:'Fāʾ, qāf, kāf, lām',ar:'ف ق ك ل',newL:['ف','ق','ك','ل'],vow:'aiu',goal:'Apprendre quatre lettres très fréquentes dans le Coran.',
+  post:[{t:'text',h:'ف ou ق ?',html:'<p>Au début et au milieu d’un mot, ف et ق ont la même boucle : ف a <b>un</b> point, ق en a <b>deux</b>. À la fin, ق descend plus bas.</p>',family:['ف','ق']}]},
+ {id:9,w:2,t:'Mīm, hāʾ, hamza',ar:'م ه ء',newL:['م','ه','ء'],vow:'aiu',goal:'Terminer l’alphabet.',
+  post:[{t:'text',h:'Les supports de la hamza',html:'<p>La hamza s’écrit seule (ء) ou posée sur un alif, un wāw ou un yāʾ sans points. Dans tous les cas, c’est le même petit arrêt de voix.</p>',ex:[['أَ','ʾa','sur alif'],['إِ','ʾi','sous alif'],['ؤُ','ʾu','sur wāw'],['ئِ','ʾi','sur yāʾ sans points']]},
+   {t:'text',h:'Tu connais tout l’alphabet',html:'<p>28 lettres, plus la hamza. À partir de maintenant, on apprend les signes qui permettent de lire de vrais mots.</p>'}]},
+ {id:10,w:2,t:'Les voyelles et le sukūn',ar:'ـَ ـِ ـُ ـْ',vow:'aiu',words:'v',goal:'Lire des syllabes fermées et tes premiers mots.',
+  slides:[
+   {t:'text',h:'Rappel des trois voyelles',html:'<p>fatḥa (a), kasra (i), ḍamma (u). Chaque consonne porte une voyelle… ou un sukūn.</p>',ex:[['كَ','ka',''],['كِ','ki',''],['كُ','ku','']]},
+   {t:'text',h:'Le sukūn : pas de voyelle',html:'<p>Le petit rond <b>ـْ</b> au-dessus d’une lettre signifie « pas de voyelle ». La lettre se colle à la syllabe d’avant.</p>',ex:[['مِنْ','min','de, parmi'],['لَمْ','lam','ne … pas'],['قُلْ','qul','dis']]},
+   {t:'drill',h:'Lis ces mots',items:'v'}
+  ]},
+ {id:11,w:2,t:'Les voyelles longues',ar:'ـَا ـِي ـُو',vow:'aiu',words:'m',goal:'Tenir deux temps les voyelles longues.',
+  slides:[
+   {t:'text',h:'Trois lettres pour allonger',html:'<p>Une voyelle suivie de sa lettre « jumelle » devient longue (deux temps) : <b>a + ا = ā</b>, <b>i + ي = ī</b>, <b>u + و = ū</b>. Dans ce cas, ا و ي ne portent pas de voyelle.</p>',ex:[['بَا','bā',''],['بِي','bī',''],['بُو','bū','']]},
+   {t:'text',h:'Court ou long ?',html:'<p>La différence change le sens du mot : sois patient sur les voyelles longues.</p>',ex:[['قَلَ','qala','(court)'],['قَالَ','qāla','il a dit (long)']]},
+   {t:'drill',h:'Lis ces mots',items:'m'}
+  ]},
+ {id:12,w:2,t:'Le tanwīn',ar:'ـً ـٍ ـٌ',vow:'aiu',words:'t',goal:'Lire la terminaison « -an, -in, -un ».',
+  slides:[
+   {t:'text',h:'Une voyelle doublée = un « n »',html:'<p>Quand la voyelle est écrite deux fois à la fin d’un mot, on ajoute le son « n » : <b>ـً = an</b>, <b>ـٍ = in</b>, <b>ـٌ = un</b>. Ce « n » ne s’écrit pas avec un nūn.</p>',ex:[['كِتَابٌ','kitābun','un livre'],['بَابًا','bāban','une porte'],['رَجُلٍ','rajulin','d’un homme']]},
+   {t:'text',h:'L’alif après « an »',html:'<p>Le tanwīn « an » est souvent suivi d’un alif qui ne se prononce pas pendant la lecture : بَابًا = « bāban ».</p>'},
+   {t:'drill',h:'Lis ces mots',items:'t'}
+  ]},
+ {id:13,w:2,t:'La shadda',ar:'ـّ',vow:'aiu',words:'sh',goal:'Doubler une consonne.',
+  slides:[
+   {t:'text',h:'Une lettre doublée',html:'<p>Le petit « w » <b>ـّ</b> (shadda) double la consonne : on la prononce deux fois, la première sans voyelle. رَبِّ = « rab-bi ».</p>',ex:[['رَبِّ','rabbi','Seigneur (de)'],['ثُمَّ','thumma','puis']]},
+   {t:'text',h:'Shadda sur ن et م',html:'<p>Sur ن et م, la shadda s’accompagne d’une résonance nasale de deux temps (la <b>ghunna</b>) : إِنَّ se lit « in-na » en faisant chanter le n.</p>',ex:[['إِنَّ','inna','certes']]},
+   {t:'drill',h:'Lis ces mots',items:'sh'}
+  ]},
+ {id:14,w:2,t:'Tāʾ marbūṭa, alif maqṣūra, lām-alif',ar:'ة ى لا',vow:'aiu',words:'sp',goal:'Reconnaître trois formes spéciales.',
+  slides:[
+   {t:'text',h:'Tāʾ marbūṭa : ة',html:'<p>Un hāʾ avec deux points, toujours en fin de mot. On le lit « t » quand on continue, et « h » quand on s’arrête.</p>',ex:[['رَحْمَةٌ','raḥmatun','une miséricorde (à l’arrêt : raḥmah)']]},
+   {t:'text',h:'Alif maqṣūra : ى',html:'<p>Un yāʾ sans points, en fin de mot. Il se lit comme un alif : « ā ».</p>',ex:[['عَلَى','ʿalā','sur'],['إِلَى','ilā','vers']]},
+   {t:'text',h:'Lām-alif : لا',html:'<p>Quand lām est suivi d’alif, les deux lettres fusionnent en une forme spéciale : لا = « lā ».</p>',ex:[['لَا','lā','non'],['سَلَامٌ','salāmun','paix']]},
+   {t:'drill',h:'Lis ces mots',items:'sp'}
+  ]},
+ {id:15,w:3,t:'L’article : lettres solaires et lunaires',ar:'ال',vow:'aiu',words:'al',goal:'Lire « al- » correctement.',
+  slides:[
+   {t:'text',h:'« al » = « le, la, les »',html:'<p>L’article s’écrit ال et se colle au mot. Devant certaines lettres, on entend bien le « l » ; devant d’autres, il disparaît.</p>'},
+   {t:'text',h:'Les 14 lettres lunaires',html:'<p>Le lām se prononce et porte un sukūn : <b>ا ب ج ح خ ع غ ف ق ك م ه و ي</b>.</p>',ex:[['الْقَمَرُ','al-qamaru','la lune'],['الْكِتَابُ','al-kitābu','le livre']]},
+   {t:'text',h:'Les 14 lettres solaires',html:'<p>Le lām ne se prononce pas : la lettre suivante prend une shadda et se double. <b>ت ث د ذ ر ز س ش ص ض ط ظ ل ن</b>.</p>',ex:[['الشَّمْسُ','ash-shamsu','le soleil'],['النُّورُ','an-nūru','la lumière'],['الرَّحِيمُ','ar-raḥīmu','le Très Miséricordieux']]},
+   {t:'drill',h:'Lis ces mots',items:'al'}
+  ],
+  quiz:{custom:[
+   {q:'Le lām se prononce-t-il ?',ar:'الْقَمَرُ',o:['Oui : al-qamaru','Non : aq-qamaru']},
+   {q:'Le lām se prononce-t-il ?',ar:'الشَّمْسُ',o:['Non : ash-shamsu','Oui : al-shamsu']},
+   {q:'Le lām se prononce-t-il ?',ar:'النُّورُ',o:['Non : an-nūru','Oui : al-nūru']},
+   {q:'Le lām se prononce-t-il ?',ar:'الْكِتَابُ',o:['Oui : al-kitābu','Non : ak-kitābu']},
+   {q:'Quel signe montre qu’une lettre est solaire après ال ?',o:['La shadda sur la lettre suivante','Un sukūn sur le lām','Un tanwīn']}
+  ]}},
+ {id:16,w:3,t:'L’alif de liaison et le mot Allah',ar:'ٱ',vow:'aiu',words:'wa',goal:'Savoir quand un alif ne se prononce pas.',
+  slides:[
+   {t:'text',h:'L’alif waṣla : ٱ',html:'<p>Dans le Coran, beaucoup de mots commencent par un alif surmonté d’un petit ṣād : <b>ٱ</b>. C’est un alif de <b>liaison</b>.</p><p>Au début de ta lecture, tu le prononces (« a » devant l’article, sinon « i » ou « u »). Au milieu d’une phrase, <b>tu le sautes</b> et tu lies au mot précédent.</p>',ex:[['ٱلْحَمْدُ','al-ḥamdu','au début : on dit « al »'],['بِسْمِ ٱللَّهِ','bismi llāhi','au milieu : l’alif est sauté']]},
+   {t:'text',h:'Le mot Allah',html:'<p>Le lām du nom <b>Allah</b> se prononce <b>lourd</b> après « a » ou « u », et <b>léger</b> après « i ».</p>',ex:[['قُلْ هُوَ ٱللَّهُ','qul huwa llāhu','lourd (après u)'],['بِسْمِ ٱللَّهِ','bismi llāhi','léger (après i)']]},
+   {t:'drill',h:'Lis ces expressions',items:'wa'}
+  ]},
+ {id:17,w:3,t:'Les signes du mushaf Madani',ar:'ٰ ٓ ۥ',vow:'aiu',words:'ms',goal:'Reconnaître les petits signes propres au Coran.',
+  slides:[
+   {t:'text',h:'Le petit alif : ـٰ',html:'<p>Un petit alif vertical au-dessus d’une lettre allonge le « a » (ā), comme un vrai alif.</p>',ex:[['ٱلرَّحْمَٰنِ','ar-raḥmāni','le Tout Miséricordieux'],['ذَٰلِكَ','dhālika','cela']]},
+   {t:'text',h:'Le signe du madd : ـٓ',html:'<p>La vague au-dessus d’une lettre longue demande d’allonger plus longtemps que d’habitude : 4 à 6 temps au lieu de 2.</p>',ex:[['جَآءَ','jāʾa','il est venu']]},
+   {t:'text',h:'Petit wāw et petit yāʾ : ۥ ۦ',html:'<p>Après le pronom « hu / hi », un petit wāw ou un petit yāʾ indique qu’on allonge : « hū », « hī ».</p>',ex:[['لَهُۥ','lahū','à lui'],['بِهِۦ','bihī','par lui']]},
+   {t:'text',h:'Les lettres muettes : ـ۟',html:'<p>Un petit rond ovale au-dessus d’une lettre (souvent un alif après un wāw) signifie qu’elle ne se prononce pas. Attention : ce n’est pas un sukūn.</p>',ex:[['ءَامَنُوا۟','āmanū','ils ont cru (l’alif final est muet)']]},
+   {t:'text',h:'Les marques de pause',html:'<p>Au-dessus du texte, de petits signes indiquent où s’arrêter :</p><table><tr><td class="arq">ۘ</td><td>arrêt obligatoire</td></tr><tr><td class="arq">ۗ</td><td>arrêt préférable</td></tr><tr><td class="arq">ۚ</td><td>arrêt permis</td></tr><tr><td class="arq">ۖ</td><td>continuer est préférable</td></tr><tr><td class="arq">ۙ</td><td>ne pas s’arrêter ici</td></tr><tr><td class="arq">ۛ … ۛ</td><td>s’arrêter à l’un des deux, pas aux deux</td></tr></table><p>La fin de chaque verset est marquée par un cercle numéroté ۝.</p>'},
+   {t:'drill',h:'Lis ces mots',items:'ms'}
+  ]},
+ {id:18,w:3,t:'Tajwīd : qalqala et allongements',ar:'قطب جد',vow:'aiu',goal:'Appliquer deux règles simples de récitation.',
+  slides:[
+   {t:'text',h:'La qalqala',html:'<p>Cinq lettres « rebondissent » quand elles portent un sukūn : <b>ق ط ب ج د</b> (moyen mnémotechnique : <span class="arq">قُطْبُ جَدٍ</span>). On ajoute un petit écho, sans en faire une voyelle.</p>',ex:[['يَلِدْ','yalid','le d rebondit'],['يُولَدْ','yūlad','le d rebondit'],['قَدْ','qad','déjà']]},
+   {t:'text',h:'Plus fort en fin de verset',html:'<p>Quand tu t’arrêtes sur une de ces lettres en fin de verset, l’écho est plus net : أَحَدٌ se lit « aḥad » avec un d qui rebondit.</p>',ex:[['أَحَدٌ','aḥad (à l’arrêt)','unique']]},
+   {t:'text',h:'Combien de temps allonger ?',html:'<table><tr><td>Voyelle longue simple (ا و ي)</td><td><b>2 temps</b></td></tr><tr><td>Avec le signe du madd ـٓ</td><td><b>4 à 6 temps</b></td></tr><tr><td>Ghunna (ن ou م avec shadda)</td><td><b>2 temps</b> de nasale</td></tr></table><p>Un « temps », c’est à peu près le temps de plier un doigt.</p>'}
+  ],
+  quiz:{custom:[
+   {q:'Quelles lettres font la qalqala ?',o:['ق ط ب ج د','س ش ص ض','م ن و ي']},
+   {q:'Quand la qalqala se produit-elle ?',o:['Quand la lettre porte un sukūn','Quand la lettre porte une fatḥa','Toujours']},
+   {q:'Combien de temps dure une voyelle longue simple ?',o:['2 temps','1 temps','6 temps']},
+   {q:'Que demande ce signe ?',ar:'جَآءَ',o:['Allonger 4 à 6 temps','Ne pas prononcer la lettre','S’arrêter']},
+   {q:'Dans يَلِدْ, quelle lettre rebondit ?',o:['Le dāl (د)','Le yāʾ (ي)','Le lām (ل)']}
+  ]}},
+ {id:19,w:3,t:'Tajwīd : le nūn sākin et le tanwīn',ar:'نْ',vow:'aiu',goal:'Connaître les quatre façons de prononcer un « n » sans voyelle.',
+  slides:[
+   {t:'text',h:'Quatre règles selon la lettre suivante',html:'<p>Un nūn avec sukūn, ou un tanwīn, ne se prononce pas toujours pareil. Tout dépend de la lettre qui suit.</p>'},
+   {t:'text',h:'1. Iẓhār : n clair',html:'<p>Devant les lettres de gorge <b>ء ه ع ح غ خ</b>, le n se prononce clairement. Dans le mushaf Madani, le nūn porte alors un sukūn visible.</p>',ex:[['مِنْ عِلْمٍ','min ʿilmin','d’un savoir']]},
+   {t:'text',h:'2. Idghām : n fondu',html:'<p>Devant <b>ي ر م ل و ن</b>, le n se fond dans la lettre suivante, qui prend une shadda. Avec ي ن م و, on garde une nasale ; avec ل ر, aucune.</p>',ex:[['يَكُن لَّهُۥ','yakul-lahū','le n disparaît dans le l']]},
+   {t:'text',h:'3. Iqlāb : n devient m',html:'<p>Devant <b>ب</b>, le n se transforme en m nasal. Le mushaf l’indique par un petit mīm ۢ.</p>',ex:[['مِنۢ بَعْدِ','mim baʿdi','après']]},
+   {t:'text',h:'4. Ikhfāʾ : n caché',html:'<p>Devant les 15 autres lettres, le n est « caché » : une nasale de deux temps, la langue sans appuyer. Dans le mushaf Madani, le nūn n’a alors <b>pas</b> de sukūn.</p>',ex:[['ٱلْإِنسَٰنَ','al-insāna','l’homme : n nasal devant s']]}
+  ],
+  quiz:{custom:[
+   {q:'Devant quelles lettres le n reste-t-il clair (iẓhār) ?',o:['ء ه ع ح غ خ','ي ر م ل و ن','ب']},
+   {q:'Devant quelle lettre le n devient-il m (iqlāb) ?',o:['ب','ل','س']},
+   {q:'Que se passe-t-il dans يَكُن لَّهُۥ ?',o:['Le n se fond dans le l (idghām)','Le n reste clair','Le n devient m']},
+   {q:'Dans le mushaf Madani, un nūn sans sukūn devant une lettre indique :',o:['Qu’il ne se prononce pas clairement','Une erreur d’impression','Une voyelle « a »']},
+   {q:'Combien de lettres provoquent l’ikhfāʾ ?',o:['15','6','4']}
+  ]}},
+ {id:20,w:4,t:'Al-Fātiḥa',ar:'الفاتحة',surah:'fatiha',goal:'Lire la première sourate, mot à mot.'},
+ {id:21,w:4,t:'Al-Ikhlāṣ et Al-Kawthar',ar:'الإخلاص · الكوثر',surah:['ikhlas','kawthar'],goal:'Lire deux sourates très courtes.'},
+ {id:22,w:4,t:'Al-ʿAṣr',ar:'العصر',surah:'asr',goal:'Lire une sourate avec plusieurs règles réunies, et terminer le parcours.'}
+];
+/* ================= outils ================= */
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store={get(k,d){try{const v=localStorage.getItem('qiraa:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('qiraa:'+k,JSON.stringify(v))}catch(e){}}};
+const ICON_SND='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2400)}
+
+/* ================= état ================= */
+const P=Object.assign({name:'Ibrahim',done:{},streak:{last:'',n:0},voice:'',rate:.75,arz:1,theme:'auto',trl:true},store.get('p',{}));
+function save(){store.set('p',P)}
+function applyPrefs(){const R=document.documentElement;R.classList.toggle('t-light',P.theme==='light');R.classList.toggle('t-dark',P.theme==='dark');R.style.setProperty('--arz',P.arz)}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function bumpStreak(){const t=today();if(P.streak.last===t)return;const y=new Date(Date.now()-864e5);const ys=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');P.streak.n=P.streak.last===ys?P.streak.n+1:1;P.streak.last=t;save()}
+
+/* ================= voix ================= */
+let VOICES=[];
+function loadVoices(){if(!('speechSynthesis' in window))return;VOICES=speechSynthesis.getVoices().filter(v=>/^ar/i.test(v.lang));document.body.classList.toggle('novoice',VOICES.length===0);if(cur==='set')render()}
+function speak(text,btn){
+ if(!('speechSynthesis' in window)||!VOICES.length){toast('Aucune voix arabe sur cet appareil : voir Réglages.');return}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const v=VOICES.find(x=>x.voiceURI===P.voice)||VOICES.find(x=>/SA|EG/i.test(x.lang))||VOICES[0];u.voice=v;u.lang=v.lang;u.rate=P.rate;
+ if(btn){btn.classList.add('play');u.onend=u.onerror=()=>btn.classList.remove('play')}speechSynthesis.speak(u)}
+function sndBtn(text,label){return `<button type="button" class="snd" data-say="${esc(text)}" aria-label="${esc(label||'Écouter')}">${ICON_SND}</button>`}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();speak(b.dataset.say,b)}});
+
+/* ================= lettres ================= */
+const forms=l=>{const c=l.c;if(l.iso)return [c,c,c,c];return l.nc?[c,c,TT+c,TT+c]:[c,c+TT,TT+c+TT,TT+c]};
+const FN=['seule','début','milieu','fin'];
+const learned=upto=>LS.filter(l=>l.id<=upto&&l.newL).flatMap(l=>l.newL);
+const SNDL={'ا':'ā'};
+function sib(c){const f=FAMILY.find(f=>f.includes(c));return f?f.filter(x=>x!==c):[]}
+
+/* ================= rendu des blocs ================= */
+function exList(ex,q){return `<div class="exs">${ex.map(([a,t,f])=>`<div class="ex">${sndBtn(a)}<div class="meta"><span class="tr">${esc(t)}</span><span>${esc(f||'')}</span></div><span class="${q?'q':'ar'}" lang="ar">${a}</span></div>`).join('')}</div>`}
+function formsBlock(c){const l=LBY[c];const f=forms(l);return `<div class="forms">${f.map((x,i)=>`<div><span class="ar" lang="ar">${x}</span><small>${FN[i]}</small></div>`).join('')}</div>`}
+function famBlock(arr){return `<div class="fam">${arr.map((c,i)=>{const l=LBY[c];return `<button type="button" data-say="${l.an}" style="animation-delay:${i*.1}s"><span class="ar" lang="ar">${c}</span><small>${l.n} · ${l.s}</small></button>`}).join('')}</div>`}
+const isQ=s=>/[ٱۥۦٰ۟ۢٓ]/.test(s);
+function letterSlide(c){const l=LBY[c];const f=forms(l);
+ return `<div class="lhero"><div class="glyph ar" lang="ar">${c}</div><div class="lname">${l.n} <span class="ar" lang="ar" style="color:var(--gold);font-size:.9em">${l.an}</span></div><div class="lsnd">son : <b>${l.s}</b></div>
+ <div style="display:flex;gap:8px">${sndBtn(l.an,'Écouter le nom')}${l.c!=='ا'&&l.c!=='ء'?`<button class="btn sm" type="button" data-say="${c}${F}">son « ${l.s}a »</button>`:''}</div></div>
+ <p>${l.tip}</p>${formsBlock(c)}
+ ${l.nc&&!l.iso?'<div class="note"><b>Ne s’attache pas à gauche :</b> la lettre suivante repart en forme « début ».</div>':''}${l.heavy?'<div class="note"><b>Lettre lourde :</b> bouche pleine, son grave.</div>':''}
+ <h3>Exemples</h3>${exList(l.ex)}<p class="fine">Les exemples contiennent parfois des lettres que tu n’as pas encore vues : concentre-toi sur la lettre du jour.</p>`}
+function sylSlide(letters,vow){const items=[];for(const c of letters){if(c==='ا')continue;const base=c==='ء'?'أ':c;for(const v of vow){if(c==='ء'&&v==='i')items.push(['إ'+K,'ʾi']);else items.push([base+VOW[v][0],(LBY[c].s)+VOW[v][1]])}}
+ return `<p>Touche chaque syllabe : lis-la d’abord dans ta tête, puis vérifie la lecture et écoute.</p><div class="sylgrid">${items.map(([a,t])=>`<button type="button" class="syl" data-sy="${a}"><span class="ar" lang="ar">${a}</span><span class="tr">${t}</span></button>`).join('')}</div>`}
+function drillSlide(key){const L=W[key];return `<p>Lis chaque mot à voix haute, puis touche-le pour vérifier.</p><div class="sylgrid" style="grid-template-columns:repeat(2,minmax(0,1fr))">${L.map(([a,t,f])=>`<button type="button" class="syl" data-sy="${a}"><span class="${isQ(a)?'q':'ar'}" lang="ar" style="font-size:calc(32px*var(--arz))">${a}</span><span class="tr">${t}</span><small class="muted tr" style="font-style:normal;color:var(--muted);font-weight:500">${f}</small></button>`).join('')}</div>`}
+function ayahBlock(s,i){const A=s.ayat[i];const full=A.map(w=>w[0]).join(' ');
+ return `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="eyebrow">${s.n} · verset ${i+1}</span>${sndBtn(full,'Écouter le verset')}</div>
+ <div class="ayah">${A.map(([a,t,f])=>`<button type="button" class="word" data-w="${esc(a)}"><span class="q" lang="ar">${a}</span><span class="tr">${t}</span><small>${f}</small></button>`).join('')}</div>
+ <div class="note"><b>Lecture continue :</b> <span class="tr">${A.map(w=>w[1]).join(' ')}</span></div>`}
+function mushafBlock(s,trl){const bsm=s.id!=='fatiha'?`<span class="q bsm" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</span>`:'';const ind=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+ return `<div class="mushaf" data-s="${s.id}"><div class="snames"><span class="ar" lang="ar" style="font-size:28px;color:var(--gold)">سورة ${s.ar}</span><span class="fine">${s.n} · ${s.fr} · sourate ${s.num}</span></div>${bsm}${s.ayat.map((A,i)=>`<span class="q" lang="ar">${A.map((w,j)=>`<span class="w" data-a="${i}" data-j="${j}">${w[0]}</span>`).join(' ')} <span class="vnum">${ind(i+1)}</span></span>${trl?`<span class="trl">${A.map(w=>w[1]).join(' ')}</span>`:''}`).join('')}</div>`}
+
+/* ================= construction des slides ================= */
+function slidesFor(L){
+ if(L.surah){const ids=[].concat(L.surah);const out=[{h:L.t,html:`<p>${L.goal}</p><div class="note"><b>Méthode :</b> pour chaque verset, lis d’abord seul, puis touche les mots pour vérifier. Termine par la lecture complète.</div><p class="fine">La voix de synthèse ne respecte pas toutes les règles de récitation : écoute aussi un récitateur et imite-le.</p>`}];
+  for(const id of ids){const s=SBY[id];s.ayat.forEach((_,i)=>out.push({h:`${s.n}, verset ${i+1}`,html:ayahBlock(s,i)}));out.push({h:`${s.n} en entier`,html:mushafBlock(s,true)+'<p class="fine">Touche un mot du texte pour voir sa lecture et son sens.</p>'})}return out}
+ const out=[];const intro={h:L.t,html:`<div class="lhero"><div class="big-ar ar" lang="ar">${L.ar}</div></div><p>${L.goal}</p>`};out.push(intro);
+ if(L.slides){for(const s of L.slides){if(s.t==='drill')out.push({h:s.h,html:drillSlide(s.items)});else out.push(textSlide(s))}return out}
+ (L.pre||[]).forEach(s=>out.push(textSlide(s)));
+ for(const c of L.newL)out.push({h:`La lettre ${LBY[c].n}`,html:letterSlide(c)});
+ out.push({h:'Les syllabes',html:sylSlide(L.newL,L.vow)});
+ (L.post||[]).forEach(s=>out.push(textSlide(s)));
+ const all=learned(L.id);out.push({h:'Ce que tu sais lire',html:`<p>Tu connais maintenant ${all.length} lettre${all.length>1?'s':''}. Touche-les pour les réécouter.</p>${famBlock(all)}`});
+ return out}
+function textSlide(s){let h=s.html||'';if(s.ex)h+=exList(s.ex,s.ex.some(e=>isQ(e[0])));if(s.arrow)h+='<div class="arrowline" aria-hidden="true"></div>';if(s.forms)h+=formsBlock(s.forms);if(s.family)h+=s.mid?`<div class="forms" style="grid-template-columns:repeat(${s.family.length},minmax(0,1fr))">${s.family.map(c=>`<div><span class="ar" lang="ar">${TT+c+TT}</span><small>${LBY[c].n}</small></div>`).join('')}</div>`:famBlock(s.family);return {h:s.h,html:h}}
+
+/* ================= exercices ================= */
+function opt(label,ok,ar){return {label,ok,ar}}
+function qLetterSound(c){const l=LBY[c];const pool=shuffle([...sib(c),...LET.map(x=>x.c)]).filter(x=>x!==c&&x!=='ا'&&x!=='ء');const ds=[...new Set(pool)].slice(0,3);
+ return {q:'Quel est le son de cette lettre ?',ar:c,o:shuffle([opt(`${l.s} (${l.n})`,1),...ds.map(d=>opt(`${LBY[d].s} (${LBY[d].n})`,0))])}}
+function qSoundLetter(c,pool){const l=LBY[c];const ds=shuffle([...new Set([...sib(c),...pool])].filter(x=>x!==c&&x!=='ء')).slice(0,3);return {q:`Quelle lettre se lit « ${l.s} » (${l.n}) ?`,say:l.an,o:shuffle([opt(c,1,1),...ds.map(d=>opt(d,0,1))]),grid:1}}
+function qForm(c,pool){const l=LBY[c];const f=forms(l);const i=1+Math.floor(Math.random()*3);const ds=shuffle([...new Set([...sib(c),...pool])].filter(x=>x!==c&&x!=='ء')).slice(0,3);return {q:`À quelle lettre correspond cette forme (${FN[i]} de mot) ?`,ar:f[i],o:shuffle([opt(c,1,1),...ds.map(d=>opt(d,0,1))]),grid:1}}
+function qSyl(c,vow,pool){if(c==='ا'||c==='ء')c=pick(pool.filter(x=>x!=='ا'&&x!=='ء'));const v=pick([...vow]);const ok=LBY[c].s+VOW[v][1];const cand=new Set();for(const vv of vow)cand.add(LBY[c].s+VOW[vv][1]);for(const s of shuffle(sib(c).concat(pool)))if(s!=='ا'&&s!=='ء')cand.add(LBY[s].s+VOW[v][1]);const ds=[...cand].filter(x=>x!==ok).slice(0,3);return {q:'Comment se lit cette syllabe ?',ar:c+VOW[v][0],say:c+VOW[v][0],o:shuffle([opt(ok,1),...ds.map(d=>opt(d,0))])}}
+function qWord(list){const w=pick(list);const ds=shuffle(list.filter(x=>x!==w)).slice(0,3);return {q:'Comment se lit ce mot ?',ar:w[0],say:w[0],qf:isQ(w[0]),o:shuffle([opt(w[1],1),...ds.map(d=>opt(d[1],0))]),sub:w[2]}}
+function qListen(c,vow){const v=pick([...vow]);const s=c+VOW[v][0];const ds=shuffle(sib(c).concat(LET.map(x=>x.c)).filter(x=>x!==c&&x!=='ا'&&x!=='ء')).slice(0,3);return {q:'Écoute et choisis la syllabe entendue.',listen:s,o:shuffle([opt(s,1,1),...ds.map(d=>opt(d+VOW[v][0],0,1))]),grid:1}}
+function quizFor(L){
+ if(L.quiz&&L.quiz.custom)return shuffle(L.quiz.custom).map(c=>({q:c.q,ar:c.ar,qf:c.ar&&isQ(c.ar),o:shuffle(c.o.map((t,i)=>opt(t,i===0)))}));
+ if(L.surah){const ws=[].concat(L.surah).flatMap(id=>SBY[id].ayat.flat());const uniq=[...new Map(ws.map(w=>[w[1],w])).values()];const Q=[];
+  const um=[...new Map(uniq.map(w=>[w[2],w])).values()];for(let k=0;k<10;k++){const w=pick(k%2?um:uniq);if(k%2){const ds=shuffle(um.filter(x=>x[2]!==w[2])).slice(0,3);Q.push({q:'Que signifie ce mot ?',ar:w[0],qf:1,say:w[0],o:shuffle([opt(w[2],1),...ds.map(d=>opt(d[2],0))])})}else{const ds=shuffle(uniq.filter(x=>x[1]!==w[1])).slice(0,3);Q.push({q:'Comment se lit ce mot ?',ar:w[0],qf:1,say:w[0],o:shuffle([opt(w[1],1),...ds.map(d=>opt(d[1],0))])})}}return Q}
+ if(L.words){const list=W[L.words];const Q=[];for(let k=0;k<6;k++)Q.push(qWord(list));const pool=learned(9).filter(c=>c!=='ا'&&c!=='ء');for(let k=0;k<4;k++)Q.push(qSyl(pick(pool),'aiu',pool));return shuffle(Q)}
+ const neu=L.newL,pool=learned(L.id);const Q=[];const nl=neu.filter(c=>c!=='ا'&&c!=='ء');
+ for(const c of neu){Q.push(c==='ا'?{q:'Quel est le rôle de l’alif ?',ar:'بَا',o:shuffle([opt('Il allonge le « a » : bā',1),opt('Il se lit « i »',0),opt('Il se lit « b »',0)])}:c==='ء'?{q:'Comment se prononce la hamza ?',ar:'ء',o:shuffle([opt('Un petit arrêt de la voix',1),opt('Comme un « h » soufflé',0),opt('Comme un « r » roulé',0)])}:qLetterSound(c))}
+ for(const c of nl)Q.push(qSoundLetter(c,pool));
+ while(Q.length<11){const c=pick(nl.length?nl:pool);const r=Math.random();Q.push(r<.35?qForm(c,pool):r<.75||!VOICES.length?qSyl(c,L.vow,pool.filter(x=>x!=='ا')):qListen(c,L.vow))}
+ return shuffle(Q).slice(0,12)}
+function reviewQuiz(){const maxId=Math.max(0,...Object.keys(P.done).map(Number));const pool=learned(Math.max(2,maxId)).filter(c=>c!=='ا'&&c!=='ء');const Q=[];const lists=Object.keys(W).filter((k,i)=>LS.some(l=>l.words===k&&l.id<=maxId));
+ for(let k=0;k<10;k++){const r=Math.random();if(lists.length&&r<.35)Q.push(qWord(W[pick(lists)]));else{const c=pick(pool);Q.push(r<.55?qLetterSound(c):r<.75?qForm(c,pool):qSyl(c,maxId>=5?'aiu':maxId>=3?'ai':'a',pool))}}return Q}
+
+/* ================= lecteur ================= */
+let PL=null;
+function openLesson(id,review){
+ const L=review?{id:0,t:'Révision rapide'}:LS.find(l=>l.id===id);
+ const slides=review?[]:slidesFor(L);const quiz=review?reviewQuiz():quizFor(L);
+ PL={L,slides,quiz,i:0,qi:0,score:0,phase:review?'quiz':'slides',answered:false,review};
+ const el=document.createElement('div');el.className='player';el.id='player';el.innerHTML=`<div class="ptop"><button class="xbtn" type="button" id="pClose" aria-label="Quitter la leçon">×</button><div class="pbar"><i id="pBar"></i></div><span class="ptitle">${esc(L.t)}</span></div><div class="pbody" id="pBody"></div><div class="pnav" id="pNav"></div>`;
+ document.body.append(el);document.body.style.overflow='hidden';$('#pClose').onclick=closeLesson;bumpStreak();drawPlayer(1)}
+function closeLesson(){speechSynthesis&&speechSynthesis.cancel&&speechSynthesis.cancel();const p=$('#player');if(p)p.remove();document.body.style.overflow='';PL=null;render()}
+function drawPlayer(dir){
+ const B=$('#pBody'),N=$('#pNav');const total=PL.slides.length+PL.quiz.length;
+ if(PL.phase==='slides'){const s=PL.slides[PL.i];$('#pBar').style.width=((PL.i+1)/total*100)+'%';
+  B.innerHTML=`<section class="slide${dir<0?' back':''}"><p class="eyebrow">${PL.L.id?`Leçon ${PL.L.id} · `:''}${PL.i+1} / ${PL.slides.length}</p><h2>${s.h}</h2>${s.html}</section>`;B.scrollTop=0;
+  N.innerHTML=`<button class="btn" type="button" id="pPrev" ${PL.i===0?'disabled':''}>← Retour</button><button class="btn pri" type="button" id="pNext">${PL.i===PL.slides.length-1?'Exercices →':'Suivant →'}</button>`;
+  $('#pPrev').onclick=()=>{if(PL.i>0){PL.i--;drawPlayer(-1)}};$('#pNext').onclick=()=>{if(PL.i<PL.slides.length-1){PL.i++;drawPlayer(1)}else{PL.phase='quiz';drawPlayer(1)}};
+  bindSlide(B);return}
+ if(PL.phase==='quiz'){const Q=PL.quiz[PL.qi];PL.answered=false;$('#pBar').style.width=((PL.slides.length+PL.qi+1)/total*100)+'%';
+  B.innerHTML=`<section class="slide qcard"><p class="eyebrow">Exercice ${PL.qi+1} / ${PL.quiz.length}</p><div class="qq">${esc(Q.q)}</div>
+  ${Q.ar?`<div class="qar ${Q.qf?'q':''}" lang="ar">${Q.ar}</div>`:''}${Q.sub&&false?'':''}
+  ${Q.listen?`<div style="display:grid;place-items:center"><button class="btn gold" type="button" id="lsn">${ICON_SND} Écouter</button></div>`:Q.say?`<div style="display:grid;place-items:center">${sndBtn(Q.say)}</div>`:''}
+  <div class="opts ${Q.grid?'grid':''}">${Q.o.map((o,k)=>`<button type="button" class="opt" data-k="${k}">${o.ar?`<span class="ar" lang="ar">${o.label}</span>`:esc(o.label)}</button>`).join('')}</div><div id="fb"></div></section>`;
+  N.innerHTML=`<span></span><button class="btn pri" type="button" id="pNext" disabled>Continuer →</button>`;
+  if(Q.listen){const b=$('#lsn');b.onclick=()=>speak(Q.listen,b);setTimeout(()=>speak(Q.listen,b),350)}
+  $$('.opt',B).forEach(b=>b.onclick=()=>answer(b,Q));$('#pNext').onclick=()=>{PL.qi++;if(PL.qi>=PL.quiz.length){PL.phase='end'}drawPlayer(1)};return}
+ // fin
+ const n=PL.quiz.length,pct=Math.round(PL.score/n*100);$('#pBar').style.width='100%';
+ if(!PL.review&&PL.L.id){const prev=P.done[PL.L.id]||0;P.done[PL.L.id]=Math.max(prev,pct);save()}
+ const stars=pct>=90?3:pct>=70?2:pct>=50?1:0;const next=LS.find(l=>l.id===PL.L.id+1);
+ B.innerHTML=`<section class="slide card end" style="display:grid;gap:14px"><p class="eyebrow">${PL.review?'Révision terminée':'Leçon terminée'}</p><div class="score">${pct} %</div><div class="stars" style="font-size:26px">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+ <p>${PL.score} bonne${PL.score>1?'s':''} réponse${PL.score>1?'s':''} sur ${n}. ${pct>=70?'Très bien, tu peux passer à la suite.':'Refais les exercices une fois avant de continuer : la répétition, c’est la clé.'}</p>
+ ${PL.L.id===22&&pct>=70?'<div class="note"><b>Félicitations !</b> Tu as terminé le parcours. Continue à lire chaque jour quelques versets dans l’onglet Coran.</div>':''}</section>`;
+ N.innerHTML=`<button class="btn" type="button" id="pAgain">Refaire</button>${next&&!PL.review?`<button class="btn pri" type="button" id="pNextL">Leçon ${next.id} →</button>`:`<button class="btn pri" type="button" id="pDone">Terminer</button>`}`;
+ $('#pAgain').onclick=()=>{const id=PL.L.id,rv=PL.review;closeLesson();openLesson(id,rv)};const nl=$('#pNextL');if(nl)nl.onclick=()=>{closeLesson();openLesson(next.id)};const d=$('#pDone');if(d)d.onclick=closeLesson;
+ if(pct>=70)celebrate()}
+function answer(b,Q){if(PL.answered)return;PL.answered=true;const o=Q.o[+b.dataset.k];$$('.opt').forEach((x,k)=>{x.disabled=true;if(Q.o[k].ok)x.classList.add('right')});
+ if(o.ok){PL.score++}else b.classList.add('wrong');const good=Q.o.find(x=>x.ok);
+ $('#fb').innerHTML=`<div class="fb ${o.ok?'ok':'ko'}">${o.ok?'Bonne réponse.':'Pas tout à fait. La bonne réponse : '+(good.ar?`<span class="ar" lang="ar" style="font-size:1.6em">${good.label}</span>`:esc(good.label))}${Q.sub?` · <span style="font-weight:500">${esc(Q.sub)}</span>`:''}</div>`;
+ $('#pNext').disabled=false;$('#pNext').focus({preventScroll:true});if(Q.say&&o.ok&&VOICES.length)speak(Q.say)}
+function bindSlide(B){$$('.syl',B).forEach(b=>b.onclick=()=>{b.classList.add('on');speak(b.dataset.sy,null)});
+ $$('.word',B).forEach(b=>b.onclick=()=>{$$('.word',B).forEach(x=>x.classList.remove('hl'));b.classList.add('hl');speak(b.dataset.w,null)});bindMushaf(B)}
+function bindMushaf(root){$$('.mushaf .w',root).forEach(w=>w.onclick=()=>{const s=SBY[w.closest('.mushaf').dataset.s];if(!s)return;const W_=s.ayat[+w.dataset.a][+w.dataset.j];$$('.mushaf .w',root).forEach(x=>x.classList.remove('hl'));w.classList.add('hl');showPop(W_)})}
+function curSurah(root){const m=root.querySelector('.mushaf');if(!m)return null;const t=m.querySelector('.snames .fine').textContent;return SUR.find(s=>t.startsWith(s.n))}
+function showPop([a,t,f]){let p=$('#pop');if(p)p.remove();p=document.createElement('div');p.className='pop';p.id='pop';p.innerHTML=`<span class="q" lang="ar">${a}</span><div><span class="tr">${esc(t)}</span><small>${esc(f)}</small></div>${sndBtn(a)}`;document.body.append(p);speak(a,null);clearTimeout(showPop.t);showPop.t=setTimeout(()=>p.remove(),6000)}
+function celebrate(){if(REDUCED)return;const c=document.createElement('canvas');c.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70';const d=Math.min(2,devicePixelRatio||1);c.width=innerWidth*d;c.height=innerHeight*d;document.body.append(c);const x=c.getContext('2d');x.scale(d,d);
+ const cs=getComputedStyle(document.documentElement);const cols=[cs.getPropertyValue('--gold').trim(),cs.getPropertyValue('--gold2').trim(),cs.getPropertyValue('--green').trim()];
+ const ps=[...Array(70)].map(()=>({x:innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*10,vy:-Math.random()*9-3,r:Math.random()*6,s:4+Math.random()*5,c:pick(cols)}));const t0=performance.now();
+ const star=(s)=>{x.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4;x.lineTo(Math.cos(a)*s,Math.sin(a)*s);x.lineTo(Math.cos(a+Math.PI/8)*s*.45,Math.sin(a+Math.PI/8)*s*.45)}x.closePath();x.fill()};
+ const f=n=>{const w=(n-t0)/1400;x.clearRect(0,0,innerWidth,innerHeight);for(const p of ps){p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.r+=.05;x.save();x.globalAlpha=Math.max(0,1-w);x.fillStyle=p.c;x.translate(p.x,p.y);x.rotate(p.r);star(p.s);x.restore()}if(w<1)requestAnimationFrame(f);else c.remove()};requestAnimationFrame(f)}
+
+/* ================= vues ================= */
+let cur='home';
+const V=$('#view');
+function nextLesson(){return LS.find(l=>!(P.done[l.id]>=50))||LS[LS.length-1]}
+function render(){
+ $$('.tabs [data-tab]').forEach(b=>b.setAttribute('aria-current',String(b.dataset.tab===cur)));
+ if(cur==='home')return home();if(cur==='abc')return abc();if(cur==='quran')return quran();if(cur==='set')return settings()}
+const LOGO='<svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="3" fill="var(--green)"/><rect x="9" y="9" width="30" height="30" rx="3" fill="var(--green)" transform="rotate(45 24 24)"/><circle cx="24" cy="24" r="10" fill="none" stroke="var(--gold2)" stroke-width="2"/><text x="24" y="30" text-anchor="middle" font-family="Amiri,serif" font-size="17" fill="var(--gold2)">ق</text></svg>';
+function home(){
+ const nd=Object.values(P.done).filter(v=>v>=50).length,tot=LS.length,C=2*Math.PI*40;const nx=nextLesson();const hr=new Date().getHours();
+ V.innerHTML=`<div class="top">${LOGO}<div><h1>Qirāʾa</h1><p>Lire le Coran en 4 semaines</p></div></div>
+ <section class="card hero"><svg class="ring" viewBox="0 0 96 96"><circle class="bgc" cx="48" cy="48" r="40"/><circle class="fgc" cx="48" cy="48" r="40" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 48 48)" id="ringFg"/><text x="48" y="55" text-anchor="middle">${nd}/${tot}</text></svg>
+ <div><p class="eyebrow" style="color:#e6c46c">${hr<12?'Bonjour':hr<18?'Bon après-midi':'Bonsoir'}${P.name?', '+esc(P.name):''}</p><h2>As-salāmu ʿalaykum</h2><p>${nd===0?'Ton parcours commence aujourd’hui.':nd>=tot?'Parcours terminé, bravo.':`${nd} leçon${nd>1?'s':''} terminée${nd>1?'s':''} sur ${tot}.`}</p>
+ <div class="stats"><span>🔥 ${P.streak.n||0} jour${(P.streak.n||0)>1?'s':''} de suite</span><span>≈ 25 min / jour</span></div></div></section>
+ <section class="card cont"><div class="row"><div><p class="eyebrow">Leçon du jour · semaine ${nx.w}</p><h3>${nx.id}. ${esc(nx.t)}</h3><p class="muted" style="margin:4px 0 0">${esc(nx.goal)}</p></div><span class="big ar" lang="ar">${nx.ar}</span></div>
+ <div class="row"><button class="btn pri" type="button" data-open="${nx.id}">${P.done[nx.id]?'Refaire':'Commencer'} la leçon →</button>${nd?'<button class="btn" type="button" id="rev">Révision rapide</button>':''}</div></section>
+ ${WEEKS.map((wk,i)=>`<section class="week"><div class="week-h"><h3>Semaine ${i+1}</h3><span class="fine">${esc(wk)}</span></div>${LS.filter(l=>l.w===i+1).map(l=>{const sc=P.done[l.id];const st=sc>=90?3:sc>=70?2:sc>=50?1:0;return `<button type="button" class="lrow${sc>=50?' done':''}${l===nx?' next':''}" data-open="${l.id}"><span class="lnum">${sc>=50?'✓':l.id}</span><span><b>${esc(l.t)}</b><small>${sc!==undefined?`<span class="stars">${'★'.repeat(st)}${'☆'.repeat(3-st)}</span> ${sc} %`:esc(l.goal)}</small></span><span class="lar" lang="ar">${l.ar}</span></button>`}).join('')}</section>`).join('')}`;
+ requestAnimationFrame(()=>{const r=$('#ringFg');if(r)r.style.strokeDashoffset=C*(1-nd/tot)});
+ $$('[data-open]',V).forEach(b=>b.onclick=()=>openLesson(+b.dataset.open));const rv=$('#rev');if(rv)rv.onclick=()=>openLesson(0,true)}
+function abc(){const known=new Set(learned(Math.max(0,...Object.keys(P.done).filter(k=>P.done[k]>=50).map(Number))));
+ V.innerHTML=`<div class="top">${LOGO}<div><h1>Alphabet</h1><p>28 lettres et la hamza · de droite à gauche</p></div></div><p class="muted">Touche une lettre pour voir ses formes, sa prononciation et des exemples. En vert : les lettres déjà étudiées.</p>
+ <div class="agrid">${LET.map(l=>`<button type="button" class="acell${known.has(l.c)?' known':''}" data-l="${l.c}"><span class="g" lang="ar">${l.c}</span><small>${l.n} · ${l.s}</small></button>`).join('')}</div>`;
+ $$('.acell',V).forEach(b=>b.onclick=()=>{const c=b.dataset.l;const el=document.createElement('div');el.className='player';el.id='player';el.innerHTML=`<div class="ptop"><button class="xbtn" type="button" aria-label="Fermer">×</button><span class="ptitle" style="max-width:none">Alphabet · ${LBY[c].n}</span></div><div class="pbody"><section class="slide">${letterSlide(c)}</section></div><div class="pnav"><button class="btn" type="button" data-d="-1">← Précédente</button><button class="btn pri" type="button" data-d="1">Suivante →</button></div>`;
+  document.body.append(el);document.body.style.overflow='hidden';$('.xbtn',el).onclick=()=>{el.remove();document.body.style.overflow=''};
+  $$('[data-d]',el).forEach(x=>x.onclick=()=>{const i=LET.findIndex(l=>l.c===c);const n=LET[(i+ +x.dataset.d+LET.length)%LET.length].c;el.remove();document.body.style.overflow='';$(`.acell[data-l="${n}"]`).click()})})}
+let qsel=null;
+function quran(){
+ if(!qsel){V.innerHTML=`<div class="top">${LOGO}<div><h1>Coran</h1><p>Lecture mot à mot · rasm uthmani (Madani)</p></div></div>
+ <div style="display:grid;gap:10px">${SUR.map(s=>`<button type="button" class="lrow" data-s="${s.id}"><span class="lnum">${s.num}</span><span><b>${s.n}</b><small>${s.fr} · ${s.ayat.length} versets</small></span><span class="lar q" lang="ar">${s.ar}</span></button>`).join('')}</div>
+ <p class="fine" style="margin-top:16px">Pour la vraie récitation, écoute un récitateur (par exemple sur <a href="https://quran.com" target="_blank" rel="noopener" style="color:var(--gold)">quran.com</a>) et répète après lui. La voix de l’app est une voix de synthèse.</p>`;
+  $$('[data-s]',V).forEach(b=>b.onclick=()=>{qsel=b.dataset.s;quran();scrollTo(0,0)});return}
+ const s=SBY[qsel];V.innerHTML=`<div class="top"><button class="xbtn" type="button" id="qBack" aria-label="Retour">←</button><div><h1>${s.n}</h1><p>${s.fr}</p></div></div>
+ <div class="seg" role="group" aria-label="Transcription" style="margin-bottom:14px"><button type="button" data-t="1" aria-pressed="${P.trl}">Avec transcription</button><button type="button" data-t="0" aria-pressed="${!P.trl}">Arabe seul</button></div>
+ <div data-s="${s.id}">${mushafBlock(s,P.trl)}</div><p class="fine" style="margin-top:12px">Touche un mot pour l’entendre et voir son sens.</p>
+ <h3 style="margin-top:22px">Verset par verset</h3><div style="display:grid;gap:18px;margin-top:10px">${s.ayat.map((_,i)=>`<div class="card" style="display:grid;gap:12px">${ayahBlock(s,i)}</div>`).join('')}</div>`;
+ $('#qBack').onclick=()=>{qsel=null;quran()};$$('[data-t]',V).forEach(b=>b.onclick=()=>{P.trl=b.dataset.t==='1';save();quran()});bindSlide(V)}
+function settings(){
+ V.innerHTML=`<div class="top">${LOGO}<div><h1>Réglages</h1><p>Personnalise ton application</p></div></div><div class="set">
+ <section class="card field"><label for="nm">Ton prénom</label><input type="text" id="nm" value="${esc(P.name)}" autocomplete="given-name"></section>
+ <section class="card field"><label for="vc">Voix arabe</label>${VOICES.length?`<select id="vc">${VOICES.map(v=>`<option value="${esc(v.voiceURI)}" ${v.voiceURI===P.voice?'selected':''}>${esc(v.name)} (${v.lang})</option>`).join('')}</select>
+  <label for="rt">Vitesse : <span id="rtv">${P.rate}</span></label><input type="range" id="rt" min="0.5" max="1.1" step="0.05" value="${P.rate}">
+  <div><button class="btn sm" type="button" data-say="بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ">${ICON_SND} Tester la voix</button></div>`
+  :`<p class="muted">Aucune voix arabe n’est installée sur cet appareil. Sur Android : Paramètres → Système → Langues → Synthèse vocale → moteur Google → installer « Arabe ». Sur iPhone : Réglages → Accessibilité → Contenu énoncé → Voix → Arabe. Puis rouvre l’app.</p>`}</section>
+ <section class="card field"><label>Taille du texte arabe</label><div class="seg" role="group" aria-label="Taille du texte arabe">${[['Normal',1],['Grand',1.2],['Très grand',1.4]].map(([l,v])=>`<button type="button" data-z="${v}" aria-pressed="${P.arz==v}">${l}</button>`).join('')}</div><p class="ar" lang="ar" style="font-size:calc(40px*var(--arz));margin:0">بِسْمِ ٱللَّهِ</p></section>
+ <section class="card field"><label>Thème</label><div class="seg" role="group" aria-label="Thème">${[['Automatique','auto'],['Clair','light'],['Sombre','dark']].map(([l,v])=>`<button type="button" data-th="${v}" aria-pressed="${P.theme===v}">${l}</button>`).join('')}</div></section>
+ <section class="card field"><label>Progression</label><p class="fine" style="margin:0">${Object.keys(P.done).length} leçon(s) commencée(s) · série de ${P.streak.n||0} jour(s). La progression est enregistrée sur cet appareil.</p><div><button class="btn sm" type="button" id="rs">Remettre à zéro</button></div><p class="fine" id="rsc" hidden>Touche encore une fois pour confirmer.</p></section>
+ <p class="fine">Contenu : alphabet, voyelles, signes du mushaf Madani et règles de base du tajwīd selon la lecture de Ḥafṣ ʿan ʿĀṣim. Texte coranique en rasm uthmani.</p></div>`;
+ $('#nm').oninput=e=>{P.name=e.target.value.trim().slice(0,30);save()};
+ const vc=$('#vc');if(vc)vc.onchange=()=>{P.voice=vc.value;save()};const rt=$('#rt');if(rt)rt.oninput=()=>{P.rate=+rt.value;$('#rtv').textContent=P.rate;save()};
+ $$('[data-z]',V).forEach(b=>b.onclick=()=>{P.arz=+b.dataset.z;save();applyPrefs();settings()});$$('[data-th]',V).forEach(b=>b.onclick=()=>{P.theme=b.dataset.th;save();applyPrefs();settings()});
+ let arm=false;$('#rs').onclick=()=>{if(!arm){arm=true;$('#rsc').hidden=false;return}P.done={};P.streak={last:'',n:0};save();toast('Progression remise à zéro');settings()}}
+
+/* ================= démarrage ================= */
+$$('.tabs [data-tab]').forEach(b=>b.onclick=()=>{cur=b.dataset.tab;if(cur==='quran')qsel=null;render();scrollTo(0,0)});
+document.addEventListener('keydown',e=>{if(!PL||e.target.closest('input,select'))return;if(e.key==='Escape')closeLesson();if(PL.phase==='slides'){if(e.key==='ArrowRight'){const b=$('#pNext');b&&b.click()}if(e.key==='ArrowLeft'){const b=$('#pPrev');b&&!b.disabled&&b.click()}}else if(PL.phase==='quiz'&&!PL.answered&&/^[1-4]$/.test(e.key)){const b=$$('.opt')[+e.key-1];b&&b.click()}});
+applyPrefs();loadVoices();if('speechSynthesis' in window)speechSynthesis.onvoiceschanged=loadVoices;
+const h=(location.hash||'').slice(1);if(['abc','quran','set'].includes(h))cur=h;render();
+
+if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+</script>
+</body>
+</html>
