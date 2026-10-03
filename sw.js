@@ -1,6 +1,6 @@
 /* Qirāʾa : fonctionnement hors ligne.
    Change VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement. */
-const VERSION = 'qiraa-v2';
+const VERSION = 'qiraa-v3';
 const CDN = [];
 const CORE = [
   './',

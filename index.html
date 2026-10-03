@@ -464,12 +464,19 @@ function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth
 function bumpStreak(){const t=today();if(P.streak.last===t)return;const y=new Date(Date.now()-864e5);const ys=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');P.streak.n=P.streak.last===ys?P.streak.n+1:1;P.streak.last=t;save()}
 
 /* ================= voix ================= */
-let VOICES=[];
-function loadVoices(){if(!('speechSynthesis' in window))return;VOICES=speechSynthesis.getVoices().filter(v=>/^ar/i.test(v.lang));document.body.classList.toggle('novoice',VOICES.length===0);if(cur==='set')render()}
+let VOICES=[],ALLV=[];
+function loadVoices(){if(!('speechSynthesis' in window))return;ALLV=speechSynthesis.getVoices();VOICES=ALLV.filter(v=>/^ar([-_]|$)/i.test(v.lang));if(cur==='set'&&!PL)render()}
 function speak(text,btn){
- if(!('speechSynthesis' in window)||!VOICES.length){toast('Aucune voix arabe sur cet appareil : voir Réglages.');return}
- speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const v=VOICES.find(x=>x.voiceURI===P.voice)||VOICES.find(x=>/SA|EG/i.test(x.lang))||VOICES[0];u.voice=v;u.lang=v.lang;u.rate=P.rate;
- if(btn){btn.classList.add('play');u.onend=u.onerror=()=>btn.classList.remove('play')}speechSynthesis.speak(u)}
+ if(!('speechSynthesis' in window)){toast('Ce navigateur ne gère pas la synthèse vocale.');return}
+ const ss=speechSynthesis;ss.cancel();
+ const u=new SpeechSynthesisUtterance(text);const v=VOICES.find(x=>x.voiceURI===P.voice)||VOICES.find(x=>/SA|EG|XA/i.test(x.lang))||VOICES[0];
+ if(v){u.voice=v;u.lang=v.lang}else u.lang='ar-SA';u.rate=P.rate;u.volume=1;
+ let started=false;u.onstart=()=>{started=true};
+ if(btn)btn.classList.add('play');
+ u.onend=()=>{btn&&btn.classList.remove('play')};
+ u.onerror=e=>{btn&&btn.classList.remove('play');if(e.error!=='interrupted'&&e.error!=='canceled')toast('Voix indisponible : télécharge la voix arabe Google et monte le volume média.')};
+ setTimeout(()=>{ss.resume&&ss.resume();ss.speak(u)},40);
+ setTimeout(()=>{if(!started&&!ss.speaking){btn&&btn.classList.remove('play')}},2500)}
 function sndBtn(text,label){return `<button type="button" class="snd" data-say="${esc(text)}" aria-label="${esc(label||'Écouter')}">${ICON_SND}</button>`}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();speak(b.dataset.say,b)}});
 
@@ -625,10 +632,12 @@ function quran(){
 function settings(){
  V.innerHTML=`<div class="top">${LOGO}<div><h1>Réglages</h1><p>Personnalise ton application</p></div></div><div class="set">
  <section class="card field"><label for="nm">Ton prénom</label><input type="text" id="nm" value="${esc(P.name)}" autocomplete="given-name"></section>
- <section class="card field"><label for="vc">Voix arabe</label>${VOICES.length?`<select id="vc">${VOICES.map(v=>`<option value="${esc(v.voiceURI)}" ${v.voiceURI===P.voice?'selected':''}>${esc(v.name)} (${v.lang})</option>`).join('')}</select>
-  <label for="rt">Vitesse : <span id="rtv">${P.rate}</span></label><input type="range" id="rt" min="0.5" max="1.1" step="0.05" value="${P.rate}">
-  <div><button class="btn sm" type="button" data-say="بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ">${ICON_SND} Tester la voix</button></div>`
-  :`<p class="muted">Aucune voix arabe n’est installée sur cet appareil. Sur Android : Paramètres → Système → Langues → Synthèse vocale → moteur Google → installer « Arabe ». Sur iPhone : Réglages → Accessibilité → Contenu énoncé → Voix → Arabe. Puis rouvre l’app.</p>`}</section>
+ <section class="card field"><label for="vc">Voix arabe</label>
+ <p class="fine" style="margin:0">Voix détectées sur l’appareil : <b>${ALLV.length}</b>, dont <b>${VOICES.length}</b> en arabe.</p>
+ ${VOICES.length?`<select id="vc">${VOICES.map(v=>`<option value="${esc(v.voiceURI)}" ${v.voiceURI===P.voice?'selected':''}>${esc(v.name)} (${v.lang})</option>`).join('')}</select>`:''}
+ <label for="rt">Vitesse : <span id="rtv">${P.rate}</span></label><input type="range" id="rt" min="0.5" max="1.1" step="0.05" value="${P.rate}">
+ <div><button class="btn sm pri" type="button" data-say="بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ">${ICON_SND} Tester la voix</button></div>
+ <p class="fine" style="margin:0">Pas de son ? 1) Monte le <b>volume média</b> (pas la sonnerie). 2) Android : Paramètres → Gestion globale → Langue → Synthèse vocale → ⚙ Google → Installer les données vocales → <b>Arabe</b> ⬇. 3) Ferme complètement l’app puis rouvre-la.</p></section>
  <section class="card field"><label>Taille du texte arabe</label><div class="seg" role="group" aria-label="Taille du texte arabe">${[['Normal',1],['Grand',1.2],['Très grand',1.4]].map(([l,v])=>`<button type="button" data-z="${v}" aria-pressed="${P.arz==v}">${l}</button>`).join('')}</div><p class="ar" lang="ar" style="font-size:calc(40px*var(--arz));margin:0">بِسْمِ ٱللَّهِ</p></section>
  <section class="card field"><label>Thème</label><div class="seg" role="group" aria-label="Thème">${[['Automatique','auto'],['Clair','light'],['Sombre','dark']].map(([l,v])=>`<button type="button" data-th="${v}" aria-pressed="${P.theme===v}">${l}</button>`).join('')}</div></section>
  <section class="card field"><label>Progression</label><p class="fine" style="margin:0">${Object.keys(P.done).length} leçon(s) commencée(s) · série de ${P.streak.n||0} jour(s). La progression est enregistrée sur cet appareil.</p><div><button class="btn sm" type="button" id="rs">Remettre à zéro</button></div><p class="fine" id="rsc" hidden>Touche encore une fois pour confirmer.</p></section>
